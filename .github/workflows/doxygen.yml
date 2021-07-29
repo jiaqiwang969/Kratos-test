@@ -1,0 +1,35 @@
+name: Doxygen
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  build-documentation:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+        
+    # 下载deal.ii 插图素材
+    - name: Get deal.tag
+      run: |
+        wget https://www.dealii.org/current/doxygen/deal.tag
+        git config --global http.version HTTP/1.1
+        
+    - name: Build Doxygen documentation
+      uses: mattnotmitt/doxygen-action@v1.1.0
+      with:
+        doxyfile-path: "./kratos_doxyfile"
+        working-directory: "./documents"
+        
+    # Deploy the HTML documentation to GitHub Pages
+    - name: Publish Doxygen documentation
+      uses: peaceiris/actions-gh-pages@v3
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        publish_dir: ./documents/html/
+        enable_jekyll: false
+        allow_empty_commit: false
+        force_orphan: true
+        publish_branch: gh-pages

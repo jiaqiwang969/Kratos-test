@@ -1,0 +1,17 @@
+@startuml
+set namespaceSeparator ::
+
+class Kratos::ScalingSolver <TSparseSpaceType TDenseSpaceType TReordererType> {
++ _Bool AdditionalPhysicalDataIsNeeded()
++ void ProvideAdditionalData(Kratos::ScalingSolver::SparseMatrixType & rA, Kratos::ScalingSolver::VectorType & rX, Kratos::ScalingSolver::VectorType & rB, int & rdof_set, int & r_model_part)
++ void InitializeSolutionStep(Kratos::ScalingSolver::SparseMatrixType & rA, Kratos::ScalingSolver::VectorType & rX, Kratos::ScalingSolver::VectorType & rB)
++ void FinalizeSolutionStep(Kratos::ScalingSolver::SparseMatrixType & rA, Kratos::ScalingSolver::VectorType & rX, Kratos::ScalingSolver::VectorType & rB)
++ void Clear()
++ _Bool Solve(Kratos::ScalingSolver::SparseMatrixType & rA, Kratos::ScalingSolver::VectorType & rX, Kratos::ScalingSolver::VectorType & rB)
++ Kratos::ScalingSolver::IndexType GetIterationsNumber()
++ int Info()
++ void PrintInfo(int & rOStream)
++ void PrintData(int & rOStream)
+}
+
+@enduml
