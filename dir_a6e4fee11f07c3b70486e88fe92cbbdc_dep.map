@@ -1,0 +1,33 @@
+<map id="/github/workspace/applications" name="/github/workspace/applications">
+<area shape="rect" id="node2" href="dir_5d393c6f8b7a54e16543e1e0ad268998.html" title="ALEapplication" alt="" coords="1239,27,1348,75"/>
+<area shape="rect" id="node15" href="dir_8fc3e8efef0bfca4a113d719cbd52afb.html" title="kratos" alt="" coords="748,219,820,267"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000001_000166.html" title="51" alt="" coords="832,229,847,243"/>
+<area shape="rect" id="node3" href="dir_8a95fbb053b260b679fce56326cc7bc4.html" title="convection_diffusion_application" alt="" coords="1373,27,1582,75"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000004_000166.html" title="87" alt="" coords="832,233,847,248"/>
+<area shape="rect" id="node4" href="dir_6566e293fc719a78ee3fe7f77578c5de.html" title="ExternalSolversApplication" alt="" coords="419,123,595,171"/>
+<area shape="rect" id="edge13-headlabel" href="dir_000024_000166.html" title="21" alt="" coords="726,208,741,223"/>
+<area shape="rect" id="node5" href="dir_5f8838a698fc9cb810dd7ef11acae9bf.html" title="FSIapplication" alt="" coords="491,27,597,75"/>
+<area shape="rect" id="edge11-headlabel" href="dir_000012_000166.html" title="45" alt="" coords="784,193,798,207"/>
+<area shape="rect" id="node6" href="dir_c04e0b6f20d509ba7eba572f6264f0fc.html" title="incompressible_fluid_application" alt="" coords="27,123,235,171"/>
+<area shape="rect" id="edge15-headlabel" href="dir_000006_000166.html" title="193" alt="" coords="720,222,741,237"/>
+<area shape="rect" id="node7" href="dir_f9ce0647f038f5bdd0f06592e0001204.html" title="MeshingApplication" alt="" coords="259,123,394,171"/>
+<area shape="rect" id="edge14-headlabel" href="dir_000014_000166.html" title="71" alt="" coords="723,221,738,236"/>
+<area shape="rect" id="node8" href="dir_8668bfec8f6bd3dae5dc18771c65fee8.html" title="metis_application" alt="" coords="621,27,744,75"/>
+<area shape="rect" id="edge12-headlabel" href="dir_000111_000166.html" title="26" alt="" coords="803,197,818,212"/>
+<area shape="rect" id="node9" href="dir_3b85d0dc1e6dfa612c894ff3cd698b5f.html" title="mkl_solvers_application" alt="" coords="306,27,467,75"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000048_000024.html" title="2" alt="" coords="464,97,472,112"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000048_000166.html" title="17" alt="" coords="761,191,776,206"/>
+<area shape="rect" id="node10" href="dir_306ec43d3ad86abef1a4faa16d2a8185.html" title="petsc_application" alt="" coords="768,27,891,75"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000117_000166.html" title="18" alt="" coords="832,207,847,222"/>
+<area shape="rect" id="node11" href="dir_a720844cb03fe2f2299517836427bf6b.html" title="PFEMapplication" alt="" coords="27,27,147,75"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000016_000006.html" title="1" alt="" coords="116,95,124,110"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000016_000166.html" title="123" alt="" coords="723,209,744,224"/>
+<area shape="rect" id="node12" href="dir_5b6e5246a29a3ca9076f80e3c8ba35a5.html" title="structural_application" alt="" coords="915,27,1061,75"/>
+<area shape="rect" id="edge16-headlabel" href="dir_000008_000166.html" title="583" alt="" coords="829,211,851,225"/>
+<area shape="rect" id="node13" href="dir_824b2f5d3e31fbc4dbe4f0c1854c086f.html" title="trilinos_application" alt="" coords="1085,27,1214,75"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000078_000166.html" title="23" alt="" coords="833,220,848,235"/>
+<area shape="rect" id="node14" href="dir_13cf10fdeb19b67cc588e70838cd0f96.html" title="ULFapplication" alt="" coords="171,27,282,75"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000010_000014.html" title="4" alt="" coords="291,97,299,111"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000010_000166.html" title="146" alt="" coords="728,194,750,208"/>
+<area shape="rect" id="clust1" href="dir_a6e4fee11f07c3b70486e88fe92cbbdc.html" alt="" coords="16,16,1708,181"/>
+</map>

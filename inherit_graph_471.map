@@ -1,0 +1,13 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$de/d0a/class_kratos_1_1_solving_strategy.html" title=" " alt="" coords="5,381,217,437"/>
+<area shape="rect" id="node2" href="$d3/d6a/class_kratos_1_1_laplacian_mesh_moving_strategy.html" title="Short class definition." alt="" coords="273,5,480,61"/>
+<area shape="rect" id="node3" href="$df/db5/class_kratos_1_1_newton_raphson_oss_strategy.html" title="Short class definition." alt="" coords="273,85,480,141"/>
+<area shape="rect" id="node4" href="$de/da9/class_kratos_1_1_residual_based_convection_diffusion_strategy.html" title="Short class definition." alt="" coords="266,165,487,221"/>
+<area shape="rect" id="node5" href="$d3/dd4/class_kratos_1_1_residual_based_convection_diffusion_strategy_non_linear.html" title="Short class definition." alt="" coords="267,246,486,317"/>
+<area shape="rect" id="node6" href="$df/d01/class_kratos_1_1_residual_based_fluid_strategy.html" title="Short class definition." alt="" coords="273,341,480,397"/>
+<area shape="rect" id="node7" href="$db/d42/class_kratos_1_1_residual_based_fluid_strategy_coupled.html" title="Short class definition." alt="" coords="267,421,486,477"/>
+<area shape="rect" id="node8" href="$d1/dfa/class_kratos_1_1_residual_based_linear_strategy.html" title="Short class definition." alt="" coords="273,501,480,557"/>
+<area shape="rect" id="node9" href="$db/db6/class_kratos_1_1_residual_based_n_d_fluid_strategy.html" title="Short class definition." alt="" coords="273,581,480,637"/>
+<area shape="rect" id="node10" href="$d4/dcd/class_kratos_1_1_residual_based_newton_raphson_strategy.html" title="Short class definition." alt="" coords="265,661,488,717"/>
+<area shape="rect" id="node11" href="$d4/dab/class_kratos_1_1_residual_based_uzawa_newton_raphson_strategy.html" title=" " alt="" coords="275,742,479,813"/>
+</map>

@@ -1,0 +1,4 @@
+<map id="Kratos::PointerVector&lt; TDataType, TPointerType, TContainerType &gt;" name="Kratos::PointerVector&lt; TDataType, TPointerType, TContainerType &gt;">
+<area shape="rect" id="node1" title="PointerVector is a container like stl vector but using a vector to store pointers to its data." alt="" coords="35,5,219,1153"/>
+<area shape="rect" id="node2" href="$dc/dea/class_kratos_1_1_geometry.html" title=" " alt="" coords="5,1201,249,3449"/>
+</map>

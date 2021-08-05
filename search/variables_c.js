@@ -1,0 +1,28 @@
+var searchData=
+[
+  ['n_10772',['N',['../da/d32/namespace_kratos_1_1_fluid2_d_o_s_sauxiliaries.html#a50d7ed80c755bbb921fb0fc023629fc2',1,'Kratos::Fluid2DOSSauxiliaries::N()'],['../d8/def/namespace_kratos_1_1_fluid2_d_a_s_g_sauxiliaries.html#a28a09d6ded0d598e52738bbb4ec5a8b2',1,'Kratos::Fluid2DASGSauxiliaries::N()']]],
+  ['ncol_10773',['ncol',['../d6/d45/struct_super_matrix.html#ab8b85bf206c36ebc2223cc2ec6acbe8c',1,'SuperMatrix']]],
+  ['ncols_10774',['ncols',['../dc/d83/structstat__snode__t.html#af94397d76ad4bb864fd75ec8dd7a66d4',1,'stat_snode_t']]],
+  ['next_10775',['next',['../d2/d37/struct_branch.html#a014261805640ba3ebd581d14944ab891',1,'Branch']]],
+  ['nextl_10776',['nextl',['../d2/da5/struct_global_l_u__t.html#a4f147deaad0c5b77cb3d2dbdd66dc437',1,'GlobalLU_t']]],
+  ['nextlu_10777',['nextlu',['../d2/da5/struct_global_l_u__t.html#a68a389310b9fbab731f4d701ae22335d',1,'GlobalLU_t']]],
+  ['nextu_10778',['nextu',['../d2/da5/struct_global_l_u__t.html#aa00cfc9ada932e8306dfc781d7e33edb',1,'GlobalLU_t']]],
+  ['ni_5fdnj_10779',['Ni_DNj',['../d1/db2/class_kratos_1_1_edges_structure_type.html#a0b6d05e9f21f35ffee7b3609e460ea3a',1,'Kratos::EdgesStructureType']]],
+  ['nnz_10780',['nnz',['../db/d9e/struct_n_cformat.html#affa2566dd89ea8ce6422f788887b5b27',1,'NCformat::nnz()'],['../dc/dbc/struct_n_rformat.html#ae3652d6a08cf47208db6abbd162bdee2',1,'NRformat::nnz()'],['../da/d67/struct_s_cformat.html#a3808f35bd097fbc0a39e3e65ee2a8d4a',1,'SCformat::nnz()'],['../d2/d0f/struct_s_c_pformat.html#ad4b6e7424269c3cbe9a368604433870e',1,'SCPformat::nnz()'],['../de/d49/struct_n_c_pformat.html#ac8c12ffc9edd0906608612727ad406ed',1,'NCPformat::nnz()']]],
+  ['nnz_5floc_10781',['nnz_loc',['../d6/daa/struct_n_rformat__loc.html#a41c309cb83dedeaa82c0e4e137ea4785',1,'NRformat_loc']]],
+  ['no_5ftranspose_10782',['NO_TRANSPOSE',['../d1/d51/namespaceboost_1_1numeric_1_1bindings_1_1traits.html#ab588cbbd0e94bd89eb00d86708890273',1,'boost::numeric::bindings::traits']]],
+  ['nprocs_10783',['nprocs',['../d6/d32/structsuperlumt__options__t.html#abd69c02a8c224a1901871b231e99cc0f',1,'superlumt_options_t']]],
+  ['nrow_10784',['nrow',['../d6/d45/struct_super_matrix.html#ab1d854b814f0757e7ff7e0da01c6ef43',1,'SuperMatrix']]],
+  ['nsuper_10785',['nsuper',['../d2/d0f/struct_s_c_pformat.html#a20ee99d8cfb0cecad94373e2eb5abef8',1,'SCPformat::nsuper()'],['../d2/da5/struct_global_l_u__t.html#a63a042be10735332d8bcad6653717a37',1,'GlobalLU_t::nsuper()'],['../da/d67/struct_s_cformat.html#aafffc008b0b8e57b9cdf5689a527bd8c',1,'SCformat::nsuper()']]],
+  ['num_5fpanels_10786',['num_panels',['../d9/d7e/struct_gstat__t.html#ae19230fb090312b33efaeae2e466b2e4',1,'Gstat_t']]],
+  ['num_5fsplits_10787',['num_splits',['../d3/d6b/structpxgstrf__shared__t.html#a6c4acf40fd73953df97f455ab5526811',1,'pxgstrf_shared_t']]],
+  ['number_5fof_5fchilds_10788',['number_of_childs',['../de/dfb/class_kratos_1_1_o_c_tree_partition_base.html#ad7a9f2f20ca119e6991b2b74323a156f',1,'Kratos::OCTreePartitionBase::number_of_childs()'],['../d9/d5c/class_kratos_1_1_o_c_tree_partition.html#a308d0aca72d2e0f23ec255a288eedbbb',1,'Kratos::OCTreePartition::number_of_childs()'],['../d2/d1f/class_kratos_1_1_o_c_tree_partition_average_split.html#af8493b219a4cafbeb9ea727d598d3e77',1,'Kratos::OCTreePartitionAverageSplit::number_of_childs()'],['../df/de0/class_kratos_1_1_o_c_tree_partition_mid_point_split.html#a3198c1b82d2dcfe7e3b3e9aaec1fbf6c',1,'Kratos::OCTreePartitionMidPointSplit::number_of_childs()']]],
+  ['nzlmax_10789',['nzlmax',['../d2/da5/struct_global_l_u__t.html#a1f77873222d31cd15eb781fdbf18df18',1,'GlobalLU_t']]],
+  ['nzlumax_10790',['nzlumax',['../d2/da5/struct_global_l_u__t.html#ae67b1da1b096e92b7ddadf6e4a159481',1,'GlobalLU_t']]],
+  ['nzs_10791',['nzs',['../dc/d83/structstat__snode__t.html#a595029291039f6ec69442c80757e70fa',1,'stat_snode_t::nzs()'],['../d7/d69/structstat__col__t.html#ae03dba5667f0ec095b01ec06954bf3bb',1,'stat_col_t::nzs()'],['../d0/d00/structstat__relax__t.html#a4b25dad461c9b7d6b7c8cffb1556bc60',1,'stat_relax_t::nzs()']]],
+  ['nzumax_10792',['nzumax',['../d2/da5/struct_global_l_u__t.html#a5238cd65bea5ca45046238d908073982',1,'GlobalLU_t']]],
+  ['nzval_10793',['nzval',['../db/d9e/struct_n_cformat.html#a3c6ce4f4c64064c02368e6bcc89c94f5',1,'NCformat::nzval()'],['../dc/dbc/struct_n_rformat.html#aa396fc23039b88d6871527302201a3af',1,'NRformat::nzval()'],['../da/d67/struct_s_cformat.html#a563dc98259f2fcf574599f6097299b9e',1,'SCformat::nzval()'],['../d2/d0f/struct_s_c_pformat.html#a028e5f9ef15054302c1403969c37a0fb',1,'SCPformat::nzval()'],['../de/d49/struct_n_c_pformat.html#a0633bb61d5ade372011dd9d64064333f',1,'NCPformat::nzval()'],['../df/d9e/struct_d_nformat.html#ae4eca5355e0cb8e6b9aae003e9269127',1,'DNformat::nzval()'],['../d6/daa/struct_n_rformat__loc.html#a08b19d74f15e6475f43565035ae898ca',1,'NRformat_loc::nzval()']]],
+  ['nzval_5fcolbeg_10794',['nzval_colbeg',['../d2/d0f/struct_s_c_pformat.html#aa9bae5f483aa1a22aec18f5c2393f05e',1,'SCPformat']]],
+  ['nzval_5fcolend_10795',['nzval_colend',['../d2/d0f/struct_s_c_pformat.html#a098e9a5c87e2c0b35c82852b1910334d',1,'SCPformat']]],
+  ['nzval_5fcolptr_10796',['nzval_colptr',['../da/d67/struct_s_cformat.html#a6f971c351efde3e916e5eb4046ef68a4',1,'SCformat']]]
+];

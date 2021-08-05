@@ -1,0 +1,13 @@
+<map id="/github/workspace/applications/ExternalSolversApplication/external_includes" name="/github/workspace/applications/ExternalSolversApplication/external_includes">
+<area shape="rect" id="node2" href="dir_af00c68dddc0256124aa9cdc71cf219c.html" title="boost" alt="" coords="197,159,269,207"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000043_000044.html" title="8" alt="" coords="238,133,246,148"/>
+<area shape="rect" id="node4" href="dir_446e79de3391f4157a259aceade4ce22.html" title="superlu" alt="" coords="197,255,269,303"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000043_000073.html" title="5" alt="" coords="268,238,276,252"/>
+<area shape="rect" id="node5" href="dir_8fc3e8efef0bfca4a113d719cbd52afb.html" title="kratos" alt="" coords="328,159,400,207"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000043_000166.html" title="10" alt="" coords="315,134,330,148"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000044_000073.html" title="2" alt="" coords="238,229,246,244"/>
+<area shape="rect" id="node3" href="dir_40c2722bc89b8b1cac52f72d7413dddb.html" title="for_parallel_superlu" alt="" coords="38,159,173,207"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000072_000073.html" title="1" alt="" coords="188,230,196,244"/>
+<area shape="rect" id="clust2" href="dir_15641bd6738b249a846e39c4000a33d4.html" alt="" coords="27,52,307,313"/>
+<area shape="rect" id="clust1" href="dir_6566e293fc719a78ee3fe7f77578c5de.html" title="ExternalSolversApplication" alt="" coords="16,16,317,324"/>
+</map>

@@ -1,0 +1,7 @@
+<map id="boost::numeric::ublas::container_reference&lt; C &gt;" name="boost::numeric::ublas::container_reference&lt; C &gt;">
+<area shape="rect" id="node1" title="Base class of all proxy classes that contain a (redirectable) reference to a mutable object." alt="" coords="185,175,359,399"/>
+<area shape="rect" id="node3" href="$d3/d79/classboost_1_1numeric_1_1ublas_1_1indexed__iterator.html" title="A class implementing an indexed random access iterator." alt="" coords="5,454,176,693"/>
+<area shape="rect" id="node4" href="$dd/dcf/classboost_1_1numeric_1_1ublas_1_1indexed__iterator1.html" title="A class implementing an indexed random access iterator of a matrix." alt="" coords="201,447,343,700"/>
+<area shape="rect" id="node5" href="$da/d40/classboost_1_1numeric_1_1ublas_1_1indexed__iterator2.html" title="A class implementing an indexed random access iterator of a matrix." alt="" coords="367,447,510,700"/>
+<area shape="rect" id="node2" href="$d2/dbf/classboost_1_1numeric_1_1ublas_1_1nonassignable___1_1nonassignable.html" title=" " alt="" coords="207,5,337,127"/>
+</map>

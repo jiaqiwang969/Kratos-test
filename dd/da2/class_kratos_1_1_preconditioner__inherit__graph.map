@@ -1,0 +1,6 @@
+<map id="Kratos::Preconditioner&lt; TSparseSpaceType, TDenseSpaceType &gt;" name="Kratos::Preconditioner&lt; TSparseSpaceType, TDenseSpaceType &gt;">
+<area shape="rect" id="node1" title="Preconditioner class." alt="" coords="165,5,401,669"/>
+<area shape="rect" id="node2" href="$da/df4/class_kratos_1_1_diagonal_preconditioner.html" title="DiagonalPreconditioner class." alt="" coords="5,725,280,1389"/>
+<area shape="rect" id="node3" href="$d9/dc0/class_kratos_1_1_i_l_u_preconditioner.html" title="ILUPreconditioner class." alt="" coords="305,717,541,1396"/>
+<area shape="rect" id="node4" href="$dd/d13/class_kratos_1_1_i_l_u0_preconditioner.html" title="ILU0Preconditioner class." alt="" coords="305,1444,541,1844"/>
+</map>

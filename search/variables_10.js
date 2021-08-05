@@ -1,0 +1,21 @@
+var searchData=
+[
+  ['r_10830',['r',['../d5/d22/structdbl__complex.html#ae00e936730b4ead1b9a6251c78b7ed51',1,'dbl_complex::r()'],['../d0/d99/structdoublecomplex.html#a7b1a3f489cadc006bfe2fda973267af6',1,'doublecomplex::r()'],['../d3/db5/structcomplex.html#a6b24d5cc84eef41dbe90b79e93de030f',1,'complex::r()'],['../dd/d16/structflt__complex.html#abe98ac27f84274dd7d0ab7d9823d179b',1,'flt_complex::r()']]],
+  ['refact_10831',['refact',['../d6/d32/structsuperlumt__options__t.html#ac032c929d51f11eda790c116c89b2e1d',1,'superlumt_options_t']]],
+  ['refineinitialized_10832',['RefineInitialized',['../d8/dc6/structsuperlu__options__t.html#a6cfb6d3c0e8d5d2c8b4b813883e395b7',1,'superlu_options_t']]],
+  ['refinesteps_10833',['RefineSteps',['../d2/dcf/struct_super_l_u_stat__t.html#a472eadaf612c983b8829ae40b09f411b',1,'SuperLUStat_t']]],
+  ['relax_10834',['relax',['../d6/d32/structsuperlumt__options__t.html#ae46f7a2d680f85a034375b992bc5c75b',1,'superlumt_options_t']]],
+  ['replacetinypivot_10835',['ReplaceTinyPivot',['../d8/dc6/structsuperlu__options__t.html#a791051ffa3861ba7203b0a1da2e6bf4b',1,'superlu_options_t']]],
+  ['residual_5fdistance_10836',['residual_distance',['../d5/de9/class_kratos_1_1_auxiliar_search_structure.html#a66b27fad1096651c8b5a5e3097d26946',1,'Kratos::AuxiliarSearchStructure']]],
+  ['root_10837',['root',['../d2/d37/struct_branch.html#a4c45df492643236de31c809f31823b7e',1,'Branch']]],
+  ['rot18_10838',['rot18',['../df/d55/namespace_kratos_1_1_shell_isotropic_auxiliaries.html#a784f83b3f1fff3fbdb4fae307a422b22',1,'Kratos::ShellIsotropicAuxiliaries::rot18()'],['../dd/d71/namespace_kratos_1_1_shell_anisotropic_linear_auxiliaries.html#af6d82315948cc32df96511f9e65f7aa9',1,'Kratos::ShellAnisotropicLinearAuxiliaries::rot18()'],['../da/d0f/namespace_kratos_1_1_shell_anisotropic_auxiliaries.html#a7e6518da023cd3ae91ec79c306b89e52',1,'Kratos::ShellAnisotropicAuxiliaries::rot18()']]],
+  ['rowbegin_10839',['RowBegin',['../d5/de9/class_kratos_1_1_auxiliar_search_structure.html#a1740154a078cdba9ae7b965e10615764',1,'Kratos::AuxiliarSearchStructure']]],
+  ['rowend_10840',['RowEnd',['../d5/de9/class_kratos_1_1_auxiliar_search_structure.html#af750b15791bada52be262dc32a76350e',1,'Kratos::AuxiliarSearchStructure']]],
+  ['rowind_10841',['rowind',['../da/d67/struct_s_cformat.html#ab54f6df08dbb300c13213d93f4f5b3e0',1,'SCformat::rowind()'],['../d2/d0f/struct_s_c_pformat.html#a5b4ccbb31fa3a7c2372b5a297453e200',1,'SCPformat::rowind()'],['../de/d49/struct_n_c_pformat.html#a55742ee57d37c4fe7b40edaeda072634',1,'NCPformat::rowind()'],['../db/d9e/struct_n_cformat.html#a0f6c6f207fd7b2ebb404c99dfed35882',1,'NCformat::rowind()']]],
+  ['rowind_5fcolbeg_10842',['rowind_colbeg',['../d2/d0f/struct_s_c_pformat.html#a1bd16ec6ab44636e56da09d65fbe8402',1,'SCPformat']]],
+  ['rowind_5fcolend_10843',['rowind_colend',['../d2/d0f/struct_s_c_pformat.html#a09c1770c0baad3c1152d48587ad084b4',1,'SCPformat']]],
+  ['rowind_5fcolptr_10844',['rowind_colptr',['../da/d67/struct_s_cformat.html#aa39db09f2e53b90e348cfa82b25da1c1',1,'SCformat']]],
+  ['rowindex_10845',['rowIndex',['../d9/ddc/class_kratos_1_1_l_u_skyline_factorization.html#a098075228eb34d2a0c7bd005ce56c80a',1,'Kratos::LUSkylineFactorization']]],
+  ['rowperm_10846',['RowPerm',['../d8/dc6/structsuperlu__options__t.html#ad38e45769deca7564ea75caec2ad58e6',1,'superlu_options_t']]],
+  ['rowptr_10847',['rowptr',['../dc/dbc/struct_n_rformat.html#aad9ddfbcafcd4244a65c17fcc48ce463',1,'NRformat::rowptr()'],['../d6/daa/struct_n_rformat__loc.html#aadd0788ee704ffb7000b0485ee128061',1,'NRformat_loc::rowptr()']]]
+];

@@ -1,0 +1,6 @@
+<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
+<area shape="rect" id="node1" href="$d9/dfe/class_kratos_1_1_variable_data.html" title="This class is the base of variables and variable&#39;s components which contains their common data." alt="" coords="5,56,145,83"/>
+<area shape="rect" id="node2" href="$d1/d66/class_kratos_1_1_variable.html" title=" " alt="" coords="206,5,379,32"/>
+<area shape="rect" id="node3" href="$d1/d66/class_kratos_1_1_variable.html" title="Variable class contains all information needed to store and retrive data from a data container." alt="" coords="193,56,392,83"/>
+<area shape="rect" id="node4" href="$d6/d22/class_kratos_1_1_variable_component.html" title="Provide information for store or retrive a component of a variable in data container." alt="" coords="203,107,382,149"/>
+</map>

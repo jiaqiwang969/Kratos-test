@@ -1,0 +1,23 @@
+<map id="/github/workspace/applications/PFEMapplication" name="/github/workspace/applications/PFEMapplication">
+<area shape="rect" id="node1" href="dir_c04e0b6f20d509ba7eba572f6264f0fc.html" title="incompressible_fluid_application" alt="" coords="725,255,933,303"/>
+<area shape="rect" id="node10" href="dir_8fc3e8efef0bfca4a113d719cbd52afb.html" title="kratos" alt="" coords="960,351,1032,399"/>
+<area shape="rect" id="edge10-headlabel" href="dir_000006_000166.html" title="193" alt="" coords="937,329,959,344"/>
+<area shape="rect" id="node3" href="dir_199531c7861e754bf5d15600dc9c65f9.html" title="custom_conditions" alt="" coords="503,255,633,303"/>
+<area shape="rect" id="edge1-headlabel" href="dir_000123_000166.html" title="18" alt="" coords="935,357,949,372"/>
+<area shape="rect" id="node4" href="dir_af055d9e68d6f2719001949e9e584aa5.html" title="custom_elements" alt="" coords="435,63,560,111"/>
+<area shape="rect" id="edge7-headlabel" href="dir_000124_000166.html" title="6" alt="" coords="1048,359,1056,373"/>
+<area shape="rect" id="node5" href="dir_2175caaa5fbe94dce57085835af85825.html" title="custom_processes" alt="" coords="434,159,566,207"/>
+<area shape="rect" id="edge5-headlabel" href="dir_000126_000123.html" title="2" alt="" coords="544,228,552,242"/>
+<area shape="rect" id="edge6-headlabel" href="dir_000126_000166.html" title="53" alt="" coords="992,324,1007,339"/>
+<area shape="rect" id="node6" href="dir_a0761053d92e9f53cf43ec11f65a8b02.html" title="custom_python" alt="" coords="299,63,410,111"/>
+<area shape="rect" id="edge2-headlabel" href="dir_000017_000126.html" title="3" alt="" coords="450,134,458,149"/>
+<area shape="rect" id="node7" href="dir_d4ed7bb54a8d7012b3fc44d06caeefba.html" title="custom_utilities" alt="" coords="590,159,703,207"/>
+<area shape="rect" id="edge4-headlabel" href="dir_000017_000127.html" title="5" alt="" coords="571,141,579,156"/>
+<area shape="rect" id="edge3-headlabel" href="dir_000017_000166.html" title="12" alt="" coords="1017,330,1032,345"/>
+<area shape="rect" id="edge9-headlabel" href="dir_000127_000006.html" title="1" alt="" coords="768,231,776,246"/>
+<area shape="rect" id="edge8-headlabel" href="dir_000127_000166.html" title="27" alt="" coords="1006,327,1021,341"/>
+<area shape="rect" id="node8" href="dir_480d567cd53109c570296574204b8611.html" title="python_scripts" alt="" coords="168,63,275,111"/>
+<area shape="rect" id="node9" href="dir_1951ba457426b81fcad8b520f041452c.html" title="test_exemples" alt="" coords="37,63,144,111"/>
+<area shape="rect" id="clust2" href="dir_a720844cb03fe2f2299517836427bf6b.html" alt="" coords="27,52,715,313"/>
+<area shape="rect" id="clust1" href="dir_a6e4fee11f07c3b70486e88fe92cbbdc.html" title="applications" alt="" coords="16,16,944,324"/>
+</map>

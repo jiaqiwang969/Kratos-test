@@ -1,0 +1,3 @@
+<map id="Kratos::PointerVectorSet&lt; TDataType, TGetKeyType, TCompareType, TEqualType, TPointerType, TContainerType &gt;" name="Kratos::PointerVectorSet&lt; TDataType, TGetKeyType, TCompareType, TEqualType, TPointerType, TContainerType &gt;">
+<area shape="rect" id="node1" title="PointerVectorSet is a sorted associative container like stl set but using a vector to store pointers ..." alt="" coords="5,5,216,1212"/>
+</map>
