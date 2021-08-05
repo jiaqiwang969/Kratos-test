@@ -1,0 +1,42 @@
+@startuml
+set namespaceSeparator ::
+
+
+class Kratos::VariableData {
++ Kratos::VariableData::KeyType mKey
+}
+
+
+class Kratos::Variable <TDataType> {
++ void *Clone(const void *pSource)
++ void *Copy(const void *pSource, void *pDestination)
++ void Assign(const void *pSource, void *pDestination)
++ void AssignZero(void *pDestination)
++ void Delete(void *pSource)
++ void Destruct(void *pSource)
++ void Print(const void *pSource, int & rOStream)
++ const Kratos::Variable::VariableType & StaticObject()
++ const TDataType & Zero()
++ int Info()
++ void PrintInfo(int & rOStream)
+}
+
+
+
+class Kratos::VariableComponent <TAdaptorType> {
++ const Kratos::VariableComponent::SourceVariableType & GetSourceVariable()
++ const Kratos::VariableComponent::AdaptorType & GetAdaptor()
++ Kratos::VariableComponent::DataType & GetValue(Kratos::VariableComponent::SourceType & SourceValue)
++ const Kratos::VariableComponent::DataType & GetValue(const Kratos::VariableComponent::SourceType & SourceValue)
++ const VariableComponent<TAdaptorType> & StaticObject()
++ int Info()
++ void PrintInfo(int & rOStream)
+}
+
+
+
+
+
+Kratos::VariableComponent -up-|> Kratos::VariableData
+Kratos::Variable -up-|> Kratos::VariableData
+@enduml

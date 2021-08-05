@@ -1,787 +1,624 @@
-//    |  /           |
-//    ' /   __| _` | __|  _ \   __|
-//    . \  |   (   | |   (   |\__ `
-//   _|\_\_|  \__,_|\__|\___/ ____/
-//                   Multi-Physics
-//
-//  License:		 BSD License
-//					 Kratos default license: kratos/license.txt
-//
-//  Main authors:    Riccardo Rossi
-//
-//
+/*
+==============================================================================
+Kratos
+A General Purpose Software for Multi-Physics Finite Element Analysis
+Version 1.0 (Released on march 05, 2007).
+
+Copyright 2007
+Pooyan Dadvand, Riccardo Rossi
+pooyan@cimne.upc.edu
+rrossi@cimne.upc.edu
+CIMNE (International Center for Numerical Methods in Engineering),
+Gran Capita' s/n, 08034 Barcelona, Spain
+
+Permission is hereby granted, free  of charge, to any person obtaining
+a  copy  of this  software  and  associated  documentation files  (the
+"Software"), to  deal in  the Software without  restriction, including
+without limitation  the rights to  use, copy, modify,  merge, publish,
+distribute,  sublicense and/or  sell copies  of the  Software,  and to
+permit persons to whom the Software  is furnished to do so, subject to
+the following condition:
+
+Distribution of this code for  any  commercial purpose  is permissible
+ONLY BY DIRECT ARRANGEMENT WITH THE COPYRIGHT OWNER.
+
+The  above  copyright  notice  and  this permission  notice  shall  be
+included in all copies or substantial portions of the Software.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT  SHALL THE AUTHORS OR COPYRIGHT HOLDERS  BE LIABLE FOR ANY
+CLAIM, DAMAGES OR  OTHER LIABILITY, WHETHER IN AN  ACTION OF CONTRACT,
+TORT  OR OTHERWISE, ARISING  FROM, OUT  OF OR  IN CONNECTION  WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+==============================================================================
+*/
+ 
+/* *********************************************************   
+*          
+*   Last Modified by:    $Author: rrossi $
+*   Date:                $Date: 2008-11-10 14:23:33 $
+*   Revision:            $Revision: 1.7 $
+*
+* ***********************************************************/
+
+
 #if !defined(KRATOS_RESIDUAL_BASED_ELIMINATION_BUILDER_AND_SOLVERCOMPONENTWISE )
 #define  KRATOS_RESIDUAL_BASED_ELIMINATION_BUILDER_AND_SOLVERCOMPONENTWISE
+
 
 /* System includes */
 #include <set>
 
+
 /* External includes */
-#ifdef KRATOS_SMP_OPENMP
-#include <omp.h>
-#endif
+#include "boost/smart_ptr.hpp"
+
 
 /* Project includes */
 #include "includes/define.h"
-#include "solving_strategies/builder_and_solvers/residualbased_elimination_builder_and_solver.h"
-#include "includes/global_pointer_variables.h"
-#include "utilities/builtin_timer.h"
+#include "solving_strategies/builder_and_solvers/builder_and_solver.h"
+
 
 namespace Kratos
 {
 
-/**@name Kratos Globals */
-/*@{ */
+	/**@name Kratos Globals */
+	/*@{ */
 
 
-/*@} */
-/**@name Type Definitions */
-/*@{ */
+	/*@} */
+	/**@name Type Definitions */       
+	/*@{ */
 
-/*@} */
+	/*@} */
 
 
-/**@name  Enum's */
-/*@{ */
+	/**@name  Enum's */       
+	/*@{ */
 
 
-/*@} */
-/**@name  Functions */
-/*@{ */
+	/*@} */
+	/**@name  Functions */       
+	/*@{ */
 
 
 
-/*@} */
-/**@name Kratos Classes */
-/*@{ */
+	/*@} */
+	/**@name Kratos Classes */
+	/*@{ */
 
-/** Short class definition.
+	/** Short class definition.
 
-Detail class definition.
+	Detail class definition.
 
-This is a specialization of the standard buliding strategy to the case in which a single variable is to be used in the
-building.
+	This is a specialization of the standard buliding strategy to the case in which a single variable is to be used in the 
+	building.
 
-the creation of the DofList and the construction of the system matrix is in this case much faster
-as the neighborhood relationships are considered to be known
+	the creation of the DofList and the construction of the system matrix is in this case much faster
+	as the neighborhood relationships are considered to be known
 
 
-\URL[Example of use html]{ extended_documentation/no_ex_of_use.html}
+	\URL[Example of use html]{ extended_documentation/no_ex_of_use.html}
 
-\URL[Example of use pdf]{ extended_documentation/no_ex_of_use.pdf}
+	\URL[Example of use pdf]{ extended_documentation/no_ex_of_use.pdf}
 
-\URL[Example of use doc]{ extended_documentation/no_ex_of_use.doc}
+	\URL[Example of use doc]{ extended_documentation/no_ex_of_use.doc}
 
-\URL[Example of use ps]{ extended_documentation/no_ex_of_use.ps}
+	\URL[Example of use ps]{ extended_documentation/no_ex_of_use.ps}
 
 
-\URL[Extended documentation html]{ extended_documentation/no_ext_doc.html}
+	\URL[Extended documentation html]{ extended_documentation/no_ext_doc.html}
 
-\URL[Extended documentation pdf]{ extended_documentation/no_ext_doc.pdf}
+	\URL[Extended documentation pdf]{ extended_documentation/no_ext_doc.pdf}
 
-\URL[Extended documentation doc]{ extended_documentation/no_ext_doc.doc}
+	\URL[Extended documentation doc]{ extended_documentation/no_ext_doc.doc}
 
-\URL[Extended documentation ps]{ extended_documentation/no_ext_doc.ps}
+	\URL[Extended documentation ps]{ extended_documentation/no_ext_doc.ps}
 
 
-*/
-template<class TSparseSpace,
-         class TDenseSpace ,
-         class TLinearSolver,
-         class TVariableType
-         >
-class ResidualBasedEliminationBuilderAndSolverComponentwise
-    : public ResidualBasedEliminationBuilderAndSolver< TSparseSpace,TDenseSpace,TLinearSolver >
-{
-public:
-    /**@name Type Definitions */
-    /*@{ */
-    KRATOS_CLASS_POINTER_DEFINITION( ResidualBasedEliminationBuilderAndSolverComponentwise );
+	*/
+	template<class TSparseSpace,
+	class TDenseSpace , 
+	class TLinearSolver,
+	class TVariableType
+	>
+	class ResidualBasedEliminationBuilderAndSolverComponentwise 
+		: public ResidualBasedEliminationBuilderAndSolver< TSparseSpace,TDenseSpace,TLinearSolver >
+	{
+	public:
+		/**@name Type Definitions */       
+		/*@{ */
+		KRATOS_CLASS_POINTER_DEFINITION( ResidualBasedEliminationBuilderAndSolverComponentwise );
 
 
-    typedef BuilderAndSolver<TSparseSpace,TDenseSpace, TLinearSolver> BaseType;
-    typedef ResidualBasedEliminationBuilderAndSolver<TSparseSpace,TDenseSpace, TLinearSolver> ResidualBasedEliminationBuilderAndSolverType;
+		typedef BuilderAndSolver<TSparseSpace,TDenseSpace, TLinearSolver> BaseType;
 
-    typedef typename BaseType::TSchemeType TSchemeType;
+		typedef typename BaseType::TSchemeType TSchemeType;
 
-    typedef typename BaseType::TDataType TDataType;
+		typedef typename BaseType::TDataType TDataType;
 
-    typedef typename BaseType::DofsArrayType DofsArrayType;
+		typedef typename BaseType::DofsArrayType DofsArrayType;
 
-    typedef typename BaseType::TSystemMatrixType TSystemMatrixType;
+		typedef typename BaseType::TSystemMatrixType TSystemMatrixType;
 
-    typedef typename BaseType::TSystemVectorType TSystemVectorType;
+		typedef typename BaseType::TSystemVectorType TSystemVectorType;
 
-    typedef typename BaseType::LocalSystemVectorType LocalSystemVectorType;
+		typedef typename BaseType::LocalSystemVectorType LocalSystemVectorType;
 
-    typedef typename BaseType::LocalSystemMatrixType LocalSystemMatrixType;
+		typedef typename BaseType::LocalSystemMatrixType LocalSystemMatrixType;
 
-    typedef typename BaseType::TSystemMatrixPointerType TSystemMatrixPointerType;
-    typedef typename BaseType::TSystemVectorPointerType TSystemVectorPointerType;
+		typedef typename BaseType::TSystemMatrixPointerType TSystemMatrixPointerType;
+		typedef typename BaseType::TSystemVectorPointerType TSystemVectorPointerType;
 
 
-    typedef typename BaseType::NodesArrayType NodesArrayType;
-    typedef typename BaseType::ElementsArrayType ElementsArrayType;
-    typedef typename BaseType::ConditionsArrayType ConditionsArrayType;
+		typedef typename BaseType::NodesArrayType NodesArrayType;
+		typedef typename BaseType::ElementsArrayType ElementsArrayType;
+		typedef typename BaseType::ConditionsArrayType ConditionsArrayType;
 
-    typedef typename BaseType::ElementsContainerType ElementsContainerType;
+		typedef typename BaseType::ElementsContainerType ElementsContainerType;
 
-    ///@}
-    ///@name Life Cycle
-    ///@{
+		/*@} */
+		/**@name Life Cycle 
+		*/    
+		/*@{ */
 
-    /**
-     * @brief Default constructor. (with parameters)
-     */
-    explicit ResidualBasedEliminationBuilderAndSolverComponentwise(
-        typename TLinearSolver::Pointer pNewLinearSystemSolver,
-        Parameters ThisParameters
-        ) : ResidualBasedEliminationBuilderAndSolverType(pNewLinearSystemSolver)
-    {
-        // Validate default parameters
-        Parameters default_parameters = Parameters(R"(
-        {
-            "name"                     : "ResidualBasedEliminationBuilderAndSolverComponentwise",
-            "components_wise_variable" : "SCALAR_VARIABLE_OR_COMPONENT"
-        })" );
-
-        ThisParameters.ValidateAndAssignDefaults(default_parameters);
-
-        rVar = KratosComponents<TVariableType>::Get(ThisParameters["components_wise_variable"].GetString());
-    }
-
-    /**
-     * @brief Default constructor. Constructor.
-     */
-    explicit ResidualBasedEliminationBuilderAndSolverComponentwise(
-        typename TLinearSolver::Pointer pNewLinearSystemSolver,TVariableType const& Var)
-        : ResidualBasedEliminationBuilderAndSolverType(pNewLinearSystemSolver)
-        , rVar(Var)
-    {
-
-        /* 			std::cout << "using the standard builder and solver " << std::endl; */
-
-    }
-
-
-    /** Destructor.
-    */
-    ~ResidualBasedEliminationBuilderAndSolverComponentwise() override {}
-
-
-    /*@} */
-    /**@name Operators
-    */
-    /*@{ */
-
-
-
-    //**************************************************************************
-    //**************************************************************************
-    void Build(
-        typename TSchemeType::Pointer pScheme,
-        ModelPart& r_model_part,
-        TSystemMatrixType& A,
-        TSystemVectorType& b) override
-    {
-        KRATOS_TRY
-        if(!pScheme)
-            KRATOS_THROW_ERROR(std::runtime_error, "No scheme provided!", "");
-
-        //getting the elements from the model
-        ElementsArrayType& pElements = r_model_part.Elements();
+		/** Constructor.
+		*/
+		ResidualBasedEliminationBuilderAndSolverComponentwise(
+			typename TLinearSolver::Pointer pNewLinearSystemSolver,TVariableType const& Var)
+			: ResidualBasedEliminationBuilderAndSolver< TSparseSpace,TDenseSpace,TLinearSolver >(pNewLinearSystemSolver)
+			, rVar(Var)
+		{
+
+			/* 			std::cout << "using the standard builder and solver " << std::endl; */
+
+		}
+
+
+		/** Destructor.
+		*/
+		virtual ~ResidualBasedEliminationBuilderAndSolverComponentwise(){}
+
+
+		/*@} */
+		/**@name Operators 
+		*/  
+		/*@{ */
+
+
+
+		//**************************************************************************
+		//**************************************************************************
+		void Build(
+			typename TSchemeType::Pointer pScheme,
+			ModelPart& r_model_part,
+			TSystemMatrixType& A,
+			TSystemVectorType& b)
+		{
+			KRATOS_TRY
+				if(!pScheme)
+					KRATOS_ERROR(std::runtime_error, "No scheme provided!", "");
+
+			//getting the elements from the model
+			ElementsArrayType& pElements = r_model_part.Elements();
 
-        //getting the array of the conditions
-        ConditionsArrayType& ConditionsArray = r_model_part.Conditions();
-
-        //resetting to zero the vector of reactions
-        TSparseSpace::SetToZero( *(BaseType::mpReactionsVector) );
-
-        //create a partition of the element array
-        int number_of_threads = ParallelUtilities::GetNumThreads();
-
-#ifdef _OPENMP
-        int A_size = A.size1();
-
-        //creating an array of lock variables of the size of the system matrix
-        std::vector< omp_lock_t > lock_array(A.size1());
-
-        for(int i = 0; i<A_size; i++)
-            omp_init_lock(&lock_array[i]);
-#endif
-
-        DenseVector<unsigned int> element_partition;
-        CreatePartition(number_of_threads, pElements.size(), element_partition);
-        if (this->GetEchoLevel()>0)
-        {
-            KRATOS_WATCH( number_of_threads );
-            KRATOS_WATCH( element_partition );
-        }
+			//getting the array of the conditions
+			ConditionsArrayType& ConditionsArray = r_model_part.Conditions();
 
-        const auto timer = BuiltinTimer();
+			//resetting to zero the vector of reactions
+			TSparseSpace::SetToZero( *(BaseType::mpReactionsVector) );
 
-        #pragma omp parallel for firstprivate(number_of_threads) schedule(static,1)
-        for(int k=0; k<number_of_threads; k++)
-        {
-            //contributions to the system
-            LocalSystemMatrixType LHS_Contribution = LocalSystemMatrixType(0,0);
-            LocalSystemVectorType RHS_Contribution = LocalSystemVectorType(0);
-
-            //vector containing the localization in the system of the different
-            //terms
-            Element::EquationIdVectorType EquationId;
-            const ProcessInfo& CurrentProcessInfo = r_model_part.GetProcessInfo();
-            typename ElementsArrayType::ptr_iterator it_begin=pElements.ptr_begin()+element_partition[k];
-            typename ElementsArrayType::ptr_iterator it_end=pElements.ptr_begin()+element_partition[k+1];
-
-            unsigned int pos = (r_model_part.Nodes().begin())->GetDofPosition(rVar);
-
-
-            // assemble all elements
-            for (typename ElementsArrayType::ptr_iterator it=it_begin; it!=it_end; ++it)
-            {
-
-                //calculate elemental contribution
-                (*it)->InitializeNonLinearIteration(CurrentProcessInfo);
-                (*it)->CalculateLocalSystem(LHS_Contribution,RHS_Contribution,CurrentProcessInfo);
-
-                Geometry< Node<3> >& geom = (*it)->GetGeometry();
-                if(EquationId.size() != geom.size()) EquationId.resize(geom.size(),false);
-
-                for(unsigned int i=0; i<geom.size(); i++)
-                    EquationId[i] = geom[i].GetDof(rVar,pos).EquationId();
-
-                //assemble the elemental contribution
-#ifdef USE_LOCKS_IN_ASSEMBLY
-                this->Assemble(A,b,LHS_Contribution,RHS_Contribution,EquationId,lock_array);
-#else
-                this->Assemble(A,b,LHS_Contribution,RHS_Contribution,EquationId);
-#endif
-            }
-        }
-
-        DenseVector<unsigned int> condition_partition;
-        CreatePartition(number_of_threads, ConditionsArray.size(), condition_partition);
+			//contributions to the system
+			LocalSystemMatrixType LHS_Contribution = LocalSystemMatrixType(0,0);
+			LocalSystemVectorType RHS_Contribution = LocalSystemVectorType(0);
 
-        #pragma omp parallel for firstprivate(number_of_threads) schedule(static,1)
-        for(int k=0; k<number_of_threads; k++)
-        {
-            //contributions to the system
-            LocalSystemMatrixType LHS_Contribution = LocalSystemMatrixType(0,0);
-            LocalSystemVectorType RHS_Contribution = LocalSystemVectorType(0);
-
-            Condition::EquationIdVectorType EquationId;
-
-            const ProcessInfo& CurrentProcessInfo = r_model_part.GetProcessInfo();
-
-            typename ConditionsArrayType::ptr_iterator it_begin=ConditionsArray.ptr_begin()+condition_partition[k];
-            typename ConditionsArrayType::ptr_iterator it_end=ConditionsArray.ptr_begin()+condition_partition[k+1];
-
-            unsigned int pos = (r_model_part.Nodes().begin())->GetDofPosition(rVar);
-
-            // A all elements
-            for (typename ConditionsArrayType::ptr_iterator it=it_begin; it!=it_end; ++it)
-            {
-
-                //calculate elemental contribution
-                (*it)->InitializeNonLinearIteration(CurrentProcessInfo);
-                (*it)->CalculateLocalSystem(LHS_Contribution,RHS_Contribution,CurrentProcessInfo);
-
-                Geometry< Node<3> >& geom = (*it)->GetGeometry();
-                if(EquationId.size() != geom.size()) EquationId.resize(geom.size(),false);
-
-                for(unsigned int i=0; i<geom.size(); i++)
-                {
-                    EquationId[i] = geom[i].GetDof(rVar,pos).EquationId();
-                }
-
-#ifdef USE_LOCKS_IN_ASSEMBLY
-                this->Assemble(A,b,LHS_Contribution,RHS_Contribution,EquationId,lock_array);
-#else
-                this->Assemble(A,b,LHS_Contribution,RHS_Contribution,EquationId);
-#endif
-            }
-        }
-        if (this->GetEchoLevel()>0) {
-            std::cout << "parallel building time: " << timer.ElapsedSeconds() << std::endl;
-        }
-
-#ifdef _OPENMP
-        for(int i = 0; i<A_size; i++)
-            omp_destroy_lock(&lock_array[i]);
-#endif
-
-        KRATOS_CATCH("")
-
-    }
-
-
-
-
-    //**************************************************************************
-    //**************************************************************************
-    void SetUpDofSet(
-        typename TSchemeType::Pointer pScheme,
-        ModelPart& r_model_part
-    ) override
-    {
-        KRATOS_TRY
-
-
-        //fills a list of "active" nodes defined as nodes which have neighbours
-        // AND no fixed pressure
-        mActiveNodes.clear();
-        mActiveNodes.reserve(r_model_part.Nodes().size() );
-        for (typename NodesArrayType::iterator it=r_model_part.NodesBegin(); it!=r_model_part.NodesEnd(); ++it)
-        {
-            if( (it->GetValue(NEIGHBOUR_NODES)).size() != 0 )
-            {
-                mActiveNodes.push_back(*(it.base() ));
-            }
-        }
-
-        //fills the DofList and give a unique progressive tag to each node
-        BaseType::mDofSet.clear();
-        BaseType::mDofSet.reserve(mActiveNodes.size() );
-
-        for(GlobalPointersVector< Node<3> >::iterator iii = mActiveNodes.begin(); iii!=mActiveNodes.end(); iii++)
-        {
-            BaseType::mDofSet.push_back( iii->pGetDof(rVar) );
-        }
-
-        //throws an execption if there are no Degrees of freedom involved in the analysis
-        if (BaseType::mDofSet.size()==0)
-            KRATOS_THROW_ERROR(std::logic_error, "No degrees of freedom!", "");
-
-        BaseType::mDofSetIsInitialized = true;
-
-
-    // If reactions are to be calculated, we check if all the dofs have reactions defined
-    // This is tobe done only in debug mode
-
-    #ifdef KRATOS_DEBUG
-
-    if(BaseType::GetCalculateReactionsFlag())
-    {
-        for(auto dof_iterator = BaseType::mDofSet.begin(); dof_iterator != BaseType::mDofSet.end(); ++dof_iterator)
-        {
-                KRATOS_ERROR_IF_NOT(dof_iterator->HasReaction()) << "Reaction variable not set for the following : " <<std::endl
-                    << "Node : "<<dof_iterator->Id()<< std::endl
-                    << "Dof : "<<(*dof_iterator)<<std::endl<<"Not possible to calculate reactions."<<std::endl;
-        }
-    }
-    #endif
-
-
-        KRATOS_CATCH("")
-    }
-
-
-    //**************************************************************************
-    //**************************************************************************
-    void ResizeAndInitializeVectors(
-        typename TSchemeType::Pointer pScheme,
-        TSystemMatrixPointerType& pA,
-        TSystemVectorPointerType& pDx,
-        TSystemVectorPointerType& pb,
-        ModelPart& rModelPart
-    ) override
-    {
-        KRATOS_TRY
-
-        if(pA == NULL) //if the pointer is not initialized initialize it to an empty matrix
-        {
-            TSystemMatrixPointerType pNewA = TSystemMatrixPointerType(new TSystemMatrixType(0,0) );
-            pA.swap(pNewA);
-        }
-        if(pDx == NULL) //if the pointer is not initialized initialize it to an empty matrix
-        {
-            TSystemVectorPointerType pNewDx = TSystemVectorPointerType(new TSystemVectorType(0) );
-            pDx.swap(pNewDx);
-        }
-        if(pb == NULL) //if the pointer is not initialized initialize it to an empty matrix
-        {
-            TSystemVectorPointerType pNewb = TSystemVectorPointerType(new TSystemVectorType(0) );
-            pb.swap(pNewb);
-        }
-        if(BaseType::mpReactionsVector == NULL) //if the pointer is not initialized initialize it to an empty matrix
-        {
-            TSystemVectorPointerType pNewReactionsVector = TSystemVectorPointerType(new TSystemVectorType(0) );
-            BaseType::mpReactionsVector.swap(pNewReactionsVector);
-        }
-
-        TSystemMatrixType& A  = *pA;
-        TSystemVectorType& Dx = *pDx;
-        TSystemVectorType& b  = *pb;
-
-        //resizing the system vectors and matrix
-        if (A.size1() == 0 || BaseType::GetReshapeMatrixFlag() == true) //if the matrix is not initialized
-        {
-            A.resize(BaseType::mEquationSystemSize,BaseType::mEquationSystemSize,false);
-#ifdef _OPENMP
-            ParallelConstructGraph(A);
-#else
-            ConstructGraph(A);
-#endif
-        }
-        else
-        {
-            if(A.size1() != BaseType::mEquationSystemSize || A.size2() != BaseType::mEquationSystemSize)
-            {
-                //KRATOS_WATCH("it should not come here!!!!!!!! ... this is SLOW");
-                KRATOS_ERROR <<"The equation system size has changed during the simulation. This is not permited."<<std::endl;
-                A.resize(BaseType::mEquationSystemSize,BaseType::mEquationSystemSize,true);
-#ifdef _OPENMP
-                ParallelConstructGraph(A);
-#else
-                ConstructGraph(A);
-#endif
-            }
-        }
-        if (Dx.size() != BaseType::mEquationSystemSize) {
-            Dx.resize(BaseType::mEquationSystemSize, false);
-        }
-        TSparseSpace::SetToZero(Dx);
-        if (b.size() != BaseType::mEquationSystemSize) {
-            b.resize(BaseType::mEquationSystemSize, false);
-        }
-        TSparseSpace::SetToZero(b);
-
-        //if needed resize the vector for the calculation of reactions
-        if(BaseType::mCalculateReactionsFlag == true)
-        {
-            unsigned int ReactionsVectorSize = BaseType::mDofSet.size();
-            if(BaseType::mpReactionsVector->size() != ReactionsVectorSize)
-                BaseType::mpReactionsVector->resize(ReactionsVectorSize,false);
-        }
-
-        //swapping pointers
+			//vector containing the localization in the system of the different
+			//terms
+			Element::EquationIdVectorType EquationId;
+/*double aaa = 0.00;
+double bbb = 0.00;
+double ccc = 0.00;
+double ddd = 0.00;*/
+//double StartTime = GetTickCount();
+
+			unsigned int pos = (r_model_part.Nodes().begin())->GetDofPosition(rVar);
+
+			ProcessInfo& CurrentProcessInfo = r_model_part.GetProcessInfo();
+			// assemble all elements
+			for (typename ElementsArrayType::ptr_iterator it=pElements.ptr_begin(); it!=pElements.ptr_end(); ++it)
+			{
+// 	aaa = GetTickCount();
+				//calculate elemental contribution
+				(*it)->InitializeNonLinearIteration(CurrentProcessInfo);
+				(*it)->CalculateLocalSystem(LHS_Contribution,RHS_Contribution,CurrentProcessInfo);
+
+				Geometry< Node<3> >& geom = (*it)->GetGeometry();
+				if(EquationId.size() != geom.size()) EquationId.resize(geom.size(),false);
+/*	bbb += GetTickCount() - aaa;
+
+	ccc = GetTickCount();*/
+				for(unsigned int i=0; i<geom.size(); i++)
+					EquationId[i] = geom[i].GetDof(rVar,pos).EquationId();
+// 	ddd += GetTickCount() - ccc;
+
+
+	//bbb = GetTickCount();
+				//assemble the elemental contribution
+				AssembleLHS(A,LHS_Contribution,EquationId);
+				AssembleRHS(b,RHS_Contribution,EquationId);
+	//ccc += GetTickCount() - bbb;
+
+
+			}
+//double EndTime = GetTickCount();
+//
+//std::cout << "total time " << EndTime - StartTime << std::endl;
+//std::cout << "writing in the system matrix " << ccc << std::endl;
+//std::cout << "calculating the elemental contrib " << ddd << std::endl;
+
+			LHS_Contribution.resize(0,0,false);
+			RHS_Contribution.resize(0,false);
+			EquationId.resize(0,false);
+
+			// assemble all conditions
+			for (typename ConditionsArrayType::ptr_iterator it=ConditionsArray.ptr_begin(); it!=ConditionsArray.ptr_end(); ++it)
+			{
+
+// 	aaa = GetTickCount();
+				//calculate elemental contribution
+				(*it)->InitializeNonLinearIteration(CurrentProcessInfo);
+				(*it)->CalculateLocalSystem(LHS_Contribution,RHS_Contribution,CurrentProcessInfo);
+
+				Geometry< Node<3> >& geom = (*it)->GetGeometry();
+				if(EquationId.size() != geom.size()) EquationId.resize(geom.size(),false);
+// 	bbb += GetTickCount() - aaa;
+//KRATOS_WATCH(RHS_Contribution);
+//KRATOS_WATCH(LHS_Contribution);
+
+// 	ccc = GetTickCount();
+				for(unsigned int i=0; i<geom.size(); i++)
+				{
+					EquationId[i] = geom[i].GetDof(rVar,pos).EquationId();
+				}
+// 	ddd += GetTickCount() - ccc;
+				
+
+
+				//assemble the elemental contribution
+				AssembleLHS(A,LHS_Contribution,EquationId);
+				AssembleRHS(b,RHS_Contribution,EquationId);
+			}
+
+/*for(int i = 0; i<b.size(); i++)
+std::cout << b[i] << std::endl;
+
+
+std::cout << "building time " << bbb <<std::endl;
+std::cout << "id time " << ddd <<std::endl;*/
+			KRATOS_CATCH("")
+
+		}
+
+
+
+
+		//**************************************************************************
+		//**************************************************************************
+		void SetUpDofSet(
+			typename TSchemeType::Pointer pScheme,
+			ModelPart& r_model_part
+			) 
+		{
+			KRATOS_TRY
+
+
+			//fills a list of "active" nodes defined as nodes which have neighbours
+			// AND no fixed pressure
+			mActiveNodes.clear();
+			mActiveNodes.reserve(r_model_part.Nodes().size() );
+			for (typename NodesArrayType::iterator it=r_model_part.NodesBegin(); it!=r_model_part.NodesEnd(); ++it)
+			{
+				if( (it->GetValue(NEIGHBOUR_NODES)).size() != 0 )
+				{
+					mActiveNodes.push_back(*(it.base() ));
+				}
+			}
+
+            //fills the DofList and give a unique progressive tag to each node
+			BaseType::mDofSet.clear();
+			BaseType::mDofSet.reserve(mActiveNodes.size() );
+
+			for(WeakPointerVector< Node<3> >::iterator iii = mActiveNodes.begin(); iii!=mActiveNodes.end(); iii++)
+			{
+				BaseType::mDofSet.push_back( iii->pGetDof(rVar) );
+			}
+
+			//throws an execption if there are no Degrees of freedom involved in the analysis
+			if (BaseType::mDofSet.size()==0)
+				KRATOS_ERROR(std::logic_error, "No degrees of freedom!", "");
+
+			BaseType::mDofSetIsInitialized = true;
+
+			KRATOS_CATCH("")
+		}
+
+
+		//**************************************************************************
+		//**************************************************************************
+		void ResizeAndInitializeVectors(
+			TSystemMatrixPointerType& pA,
+			TSystemVectorPointerType& pDx,
+			TSystemVectorPointerType& pb,
+			ElementsArrayType& rElements,
+			ConditionsArrayType& rConditions,
+			ProcessInfo& CurrentProcessInfo
+			)
+		{
+			KRATOS_TRY
+
+				if(pA == NULL) //if the pointer is not initialized initialize it to an empty matrix
+				{
+					TSystemMatrixPointerType pNewA = TSystemMatrixPointerType(new TSystemMatrixType(0,0) );
+					pA.swap(pNewA);					
+				}
+				if(pDx == NULL) //if the pointer is not initialized initialize it to an empty matrix
+				{
+					TSystemVectorPointerType pNewDx = TSystemVectorPointerType(new TSystemVectorType(0) );
+					pDx.swap(pNewDx);
+				}
+				if(pb == NULL) //if the pointer is not initialized initialize it to an empty matrix
+				{
+					TSystemVectorPointerType pNewb = TSystemVectorPointerType(new TSystemVectorType(0) );
+					pb.swap(pNewb);
+				}
+				if(BaseType::mpReactionsVector == NULL) //if the pointer is not initialized initialize it to an empty matrix
+				{
+					TSystemVectorPointerType pNewReactionsVector = TSystemVectorPointerType(new TSystemVectorType(0) );
+					BaseType::mpReactionsVector.swap(pNewReactionsVector); 
+				}
+
+				TSystemMatrixType& A  = *pA;
+				TSystemVectorType& Dx = *pDx;
+				TSystemVectorType& b  = *pb;
+
+				//resizing the system vectors and matrix
+				if (A.size1() == 0 || BaseType::GetReshapeMatrixFlag() == true) //if the matrix is not initialized
+				{
+					A.resize(BaseType::mEquationSystemSize,BaseType::mEquationSystemSize,false);
+					ConstructMatrixStructure(A, rElements, rConditions, CurrentProcessInfo);
+				}
+				else
+				{
+					if(A.size1() != BaseType::mEquationSystemSize || A.size2() != BaseType::mEquationSystemSize)
+					{
+						KRATOS_WATCH("it should not come here!!!!!!!! ... this is SLOW");
+						A.resize(BaseType::mEquationSystemSize,BaseType::mEquationSystemSize,true);
+						ConstructMatrixStructure(A, rElements, rConditions, CurrentProcessInfo);
+					}
+				}
+				if(Dx.size() != BaseType::mEquationSystemSize)
+					Dx.resize(BaseType::mEquationSystemSize,false);
+				if(b.size() != BaseType::mEquationSystemSize)
+					b.resize(BaseType::mEquationSystemSize,false);
+
+				//
+
+
+				//if needed resize the vector for the calculation of reactions
+				if(BaseType::mCalculateReactionsFlag == true)
+				{
+					unsigned int ReactionsVectorSize = BaseType::mDofSet.size()-BaseType::mEquationSystemSize;
+					if(BaseType::mpReactionsVector->size() != ReactionsVectorSize)
+						BaseType::mpReactionsVector->resize(ReactionsVectorSize,false);
+				}
+
+				//swapping pointers
 // 				pA.swap(pNewA);
 // 				pDx.swap(pNewDx);
 // 				pb.swap(pNewb);
-#ifndef __SUNPRO_CC
-        KRATOS_CATCH("")
-#endif
 
-    }
+				KRATOS_CATCH("")
 
-    //**************************************************************************
-    //**************************************************************************
-    void Clear() override
-    {
-        this->mDofSet = DofsArrayType();
+		}
 
-        if(this->mpReactionsVector != NULL)
-        {
-            TSparseSpace::Clear( (this->mpReactionsVector) );
-        }
+		//**************************************************************************
+		//**************************************************************************
+		void Clear() 
+		{
+			this->mDofSet = DofsArrayType();
+
+			TSparseSpace::Clear( *(this->mpReactionsVector) );
 // 			*(this->mpReactionsVector) = TSystemVectorType();
 
-        if (this->GetEchoLevel()>1)
-        {
-            KRATOS_WATCH("ResidualBasedEliminationBuilderAndSolver Clear Function called");
-        }
-    }
-    /*@} */
-    /**@name Operations */
-    /*@{ */
-
-
-    /*@} */
-    /**@name Access */
-    /*@{ */
-
-
-    /*@} */
-    /**@name Inquiry */
-    /*@{ */
-
-    ///@}
-    ///@name Input and output
-    ///@{
-
-    /// Turn back information as a string.
-    std::string Info() const override
-    {
-        return "ResidualBasedEliminationBuilderAndSolverComponentwise";
-    }
-
-    /// Print information about this object.
-    void PrintInfo(std::ostream& rOStream) const override
-    {
-        rOStream << Info();
-    }
-
-    /// Print object's data.
-    void PrintData(std::ostream& rOStream) const override
-    {
-        rOStream << Info();
-    }
-
-    /*@} */
-    /**@name Friends */
-    /*@{ */
-
-
-    /*@} */
-
-protected:
-    /**@name Protected static Member Variables */
-    /*@{ */
-
-
-    /*@} */
-    /**@name Protected member Variables */
-    /*@{ */
-
-
-    /*@} */
-    /**@name Protected Operators*/
-    /*@{ */
-    //**************************************************************************
-    //**************************************************************************
-    //**************************************************************************
-    //**************************************************************************
-    void ConstructGraph(TSystemMatrixType& A)
-    {
-        KRATOS_TRY
-
-        std::vector< std::vector<int> > index_list(BaseType::mEquationSystemSize);
-
-        int total_size = 0;
-
-        unsigned int pos = (mActiveNodes.begin())->GetDofPosition(rVar);
-        //constructing the system matrix row by row
-        int index_i;
-        for(GlobalPointersVector< Node<3> >::iterator in = mActiveNodes.begin();
-                in!=mActiveNodes.end(); in++)
-        {
-            const Node<3>::DofType& current_dof = in->GetDof(rVar,pos);
-            if( current_dof.IsFixed() == false)
-            {
-                index_i = (current_dof).EquationId();
-                GlobalPointersVector< Node<3> >& neighb_nodes = in->GetValue(NEIGHBOUR_NODES);
-
-                std::vector<int>& indices = index_list[index_i];
-                indices.reserve(neighb_nodes.size()+1);
-
-                //filling the first neighbours list
-                indices.push_back(index_i);
-                for( GlobalPointersVector< Node<3> >::iterator i =	neighb_nodes.begin();
-                        i != neighb_nodes.end(); i++)
-                {
-                    const Node<3>::DofType& neighb_dof = i->GetDof(rVar,pos);
-                    if(neighb_dof.IsFixed() == false )
-                    {
-                        int index_j = (neighb_dof).EquationId();
-                        indices.push_back(index_j);
-                    }
-                }
-
-                //sorting the indices and elminating the duplicates
-                std::sort(indices.begin(),indices.end());
-                typename std::vector<int>::iterator new_end = std::unique(indices.begin(),indices.end());
-
-                indices.erase(new_end,indices.end());
-
-                total_size += indices.size();
-            }
-        }
-
-        A.reserve(total_size,false);
-
-        //setting to zero the matrix (and the diagonal matrix)
-        for(unsigned int i=0; i<BaseType::mEquationSystemSize; i++)
-        {
-            std::vector<int>& indices = index_list[i];
-            for(unsigned int j=0; j<indices.size(); j++)
-            {
-                A.push_back(i,indices[j] , 0.00);
-            }
-        }
-
-        KRATOS_CATCH("")
-    }
-
-    //**************************************************************************
-    //**************************************************************************
-    //**************************************************************************
-    //**************************************************************************
-#ifdef _OPENMP
-    void ParallelConstructGraph(TSystemMatrixType& A)
-    {
-#ifndef __SUNPRO_CC
-        KRATOS_TRY
-#endif
-        std::vector< std::vector<int> > index_list(BaseType::mEquationSystemSize);
-
-        int number_of_threads = omp_get_max_threads();
-
-        unsigned int pos = (mActiveNodes.begin())->GetDofPosition(rVar);
-        //constructing the system matrix row by row
-
-        DenseVector<unsigned int> partition;
-        DenseVector<unsigned int> local_sizes(number_of_threads);
-        for(int i=0; i<number_of_threads; i++)
-            local_sizes[i] = 0;
-
-        CreatePartition(number_of_threads, mActiveNodes.size(), partition);
-
-        #pragma omp parallel for firstprivate(number_of_threads,pos) schedule(static,1)
-        for(int k=0; k<number_of_threads; k++)
-        {
-            GlobalPointersVector< Node<3> >::iterator it_begin = mActiveNodes.begin()+partition[k];
-            GlobalPointersVector< Node<3> >::iterator it_end = mActiveNodes.begin()+partition[k+1];
-
-            for(GlobalPointersVector< Node<3> >::iterator in = it_begin;
-                    in!=it_end; in++)
-            {
-                const Node<3>::DofType& current_dof = in->GetDof(rVar,pos);
-                if( current_dof.IsFixed() == false)
-                {
-                    int index_i = (current_dof).EquationId();
-                    GlobalPointersVector< Node<3> >& neighb_nodes = in->GetValue(NEIGHBOUR_NODES);
-
-                    std::vector<int>& indices = index_list[index_i];
-                    indices.reserve(neighb_nodes.size()+1);
-
-                    //filling the first neighbours list
-                    indices.push_back(index_i);
-                    for( GlobalPointersVector< Node<3> >::iterator i =	neighb_nodes.begin();
-                            i != neighb_nodes.end(); i++)
-                    {
-
-                        const Node<3>::DofType& neighb_dof = i->GetDof(rVar,pos);
-                        if(neighb_dof.IsFixed() == false )
-                        {
-                            int index_j = (neighb_dof).EquationId();
-                            indices.push_back(index_j);
-                        }
-                    }
+			if (this->GetEchoLevel()>0)
+			{
+				KRATOS_WATCH("ResidualBasedEliminationBuilderAndSolver Clear Function called");
+			}
+		}
+		/*@} */
+		/**@name Operations */
+		/*@{ */
 
-                    //sorting the indices and elminating the duplicates
-                    std::sort(indices.begin(),indices.end());
-                    typename std::vector<int>::iterator new_end = std::unique(indices.begin(),indices.end());
-                    indices.erase(new_end,indices.end());
 
-                    local_sizes[k] += indices.size();
-                }
-            }
-        }
+		/*@} */  
+		/**@name Access */
+		/*@{ */
 
-        //calculate the total size of the system
-        int total_size = 0.0;
-        for(int i=0; i<number_of_threads; i++)
-            total_size += local_sizes[i];
 
-        A.reserve(total_size,false);
+		/*@} */
+		/**@name Inquiry */
+		/*@{ */
 
-        //setting to zero the matrix (and the diagonal matrix)
-        for(unsigned int i=0; i<BaseType::mEquationSystemSize; i++)
-        {
-            std::vector<int>& indices = index_list[i];
-            for(unsigned int j=0; j<indices.size(); j++)
-            {
-                A.push_back(i,indices[j] , 0.00);
-            }
-        }
-#ifndef __SUNPRO_CC
-        KRATOS_CATCH("")
-#endif
-    }
-#endif
 
+		/*@} */      
+		/**@name Friends */
+		/*@{ */
 
 
-    /*@} */
-    /**@name Protected Operations*/
-    /*@{ */
+		/*@} */
 
+	protected:
+		/**@name Protected static Member Variables */
+		/*@{ */
 
-    /*@} */
-    /**@name Protected  Access */
-    /*@{ */
 
+		/*@} */
+		/**@name Protected member Variables */
+		/*@{ */
 
-    /*@} */
-    /**@name Protected Inquiry */
-    /*@{ */
 
+		/*@} */
+		/**@name Protected Operators*/
+		/*@{ */
+		//**************************************************************************
+		void ConstructMatrixStructure(
+					      TSystemMatrixType& A,
+			ElementsContainerType& rElements,
+			ConditionsArrayType& rConditions,
+			ProcessInfo& CurrentProcessInfo)
+		{ 
+			KRATOS_TRY
 
-    /*@} */
-    /**@name Protected LifeCycle */
-    /*@{ */
+				std::vector< std::vector<int> > index_list(BaseType::mEquationSystemSize);
 
+			int total_size = 0;
 
+			unsigned int pos = (mActiveNodes.begin())->GetDofPosition(rVar);
+			//constructing the system matrix row by row
+			int index_i;
+			for(WeakPointerVector< Node<3> >::iterator in = mActiveNodes.begin(); 
+				in!=mActiveNodes.end(); in++)
+			{
+				Node<3>::DofType& current_dof = in->GetDof(rVar,pos);
+				if( current_dof.IsFixed() == false)
+				{
+					index_i = (current_dof).EquationId();
+					WeakPointerVector< Node<3> >& neighb_nodes = in->GetValue(NEIGHBOUR_NODES);
 
-    /*@} */
+					std::vector<int>& indices = index_list[index_i];
+					indices.reserve(neighb_nodes.size());
 
-private:
-    /**@name Static Member Variables */
-    /*@{ */
+					//filling the first neighbours list
+					indices.push_back(index_i);
+					for( WeakPointerVector< Node<3> >::iterator i =	neighb_nodes.begin();
+						i != neighb_nodes.end(); i++)
+					{
 
+						Node<3>::DofType& neighb_dof = i->GetDof(rVar,pos);
+						if(neighb_dof.IsFixed() == false )
+						{
+							int index_j = (neighb_dof).EquationId();
+							indices.push_back(index_j);
+						}
+					}
 
-    /*@} */
-    /**@name Member Variables */
-    /*@{ */
-    TVariableType const & rVar;
-    GlobalPointersVector<Node<3> > mActiveNodes;
+					//sorting the indices and elminating the duplicates
+					std::sort(indices.begin(),indices.end());
+					typename std::vector<int>::iterator new_end = std::unique(indices.begin(),indices.end());
 
-    /*@} */
-    /**@name Private Operators*/
-    /*@{ */
-    //******************************************************************************************
-    //******************************************************************************************
-    inline void CreatePartition(unsigned int number_of_threads,const int number_of_rows, DenseVector<unsigned int>& partitions)
-    {
-        partitions.resize(number_of_threads+1);
-        int partition_size = number_of_rows / number_of_threads;
-        partitions[0] = 0;
-        partitions[number_of_threads] = number_of_rows;
-        for(unsigned int i = 1; i<number_of_threads; i++)
-            partitions[i] = partitions[i-1] + partition_size ;
-    }
+//					indices.erase(new_end,indices.end());
 
+					total_size += indices.size();
+				}
+			}
 
+			A.reserve(total_size,false);
 
+			//setting to zero the matrix (and the diagonal matrix)
+			for(unsigned int i=0; i<BaseType::mEquationSystemSize; i++)
+			{
+				std::vector<int>& indices = index_list[i];
+				for(unsigned int j=0; j<indices.size(); j++)
+				{
+					A.push_back(i,indices[j] , 0.00);
+				}
+			}	
 
+			KRATOS_CATCH("")
+		}
 
-    /*@} */
-    /**@name Private Operations*/
-    /*@{ */
 
 
 
+		/*@} */
+		/**@name Protected Operations*/
+		/*@{ */
 
 
+		/*@} */
+		/**@name Protected  Access */
+		/*@{ */
 
-    /*@} */
-    /**@name Private  Access */
-    /*@{ */
 
+		/*@} */     
+		/**@name Protected Inquiry */
+		/*@{ */
 
-    /*@} */
-    /**@name Private Inquiry */
-    /*@{ */
 
+		/*@} */   
+		/**@name Protected LifeCycle */  
+		/*@{ */
 
-    /*@} */
-    /**@name Un accessible methods */
-    /*@{ */
 
 
-    /*@} */
+		/*@} */    
 
-}; /* Class ResidualBasedEliminationBuilderAndSolverComponentwise */
+	private:
+		/**@name Static Member Variables */
+		/*@{ */
 
-/*@} */
 
-/**@name Type Definitions */
-/*@{ */
+		/*@} */
+		/**@name Member Variables */
+		/*@{ */
+		TVariableType const & rVar;
+		WeakPointerVector<Node<3> > mActiveNodes;
 
+		/*@} */
+		/**@name Private Operators*/
+		/*@{ */
 
-/*@} */
+
+		/*@} */
+		/**@name Private Operations*/
+		/*@{ */
+
+
+
+
+
+
+		/*@} */
+		/**@name Private  Access */
+		/*@{ */
+
+
+		/*@} */     
+		/**@name Private Inquiry */
+		/*@{ */
+
+
+		/*@} */   
+		/**@name Un accessible methods */
+		/*@{ */
+
+
+		/*@} */   
+
+	}; /* Class ResidualBasedEliminationBuilderAndSolverComponentwise */
+
+	/*@} */
+
+	/**@name Type Definitions */       
+	/*@{ */
+
+
+	/*@} */
 
 }  /* namespace Kratos.*/
 
 #endif /* KRATOS_RESIDUAL_BASED_ELIMINATION_BUILDER_AND_SOLVERCOMPONENTWISE  defined */
+

@@ -1,0 +1,8 @@
+@startuml
+set namespaceSeparator ::
+
+class Kratos::VariableData {
++ Kratos::VariableData::KeyType mKey
+}
+
+@enduml

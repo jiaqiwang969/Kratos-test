@@ -1,342 +1,230 @@
-//    |  /           |
-//    ' /   __| _` | __|  _ \   __|
-//    . \  |   (   | |   (   |\__ \.
-//   _|\_\_|  \__,_|\__|\___/ ____/
-//                   Multi-Physics
+/*
+==============================================================================
+Kratos
+A General Purpose Software for Multi-Physics Finite Element Analysis
+Version 1.0 (Released on march 05, 2007).
+
+Copyright 2007
+Pooyan Dadvand, Riccardo Rossi
+pooyan@cimne.upc.edu
+rrossi@cimne.upc.edu
+CIMNE (International Center for Numerical Methods in Engineering),
+Gran Capita' s/n, 08034 Barcelona, Spain
+
+Permission is hereby granted, free  of charge, to any person obtaining
+a  copy  of this  software  and  associated  documentation files  (the
+"Software"), to  deal in  the Software without  restriction, including
+without limitation  the rights to  use, copy, modify,  merge, publish,
+distribute,  sublicense and/or  sell copies  of the  Software,  and to
+permit persons to whom the Software  is furnished to do so, subject to
+the following condition:
+
+Distribution of this code for  any  commercial purpose  is permissible
+ONLY BY DIRECT ARRANGEMENT WITH THE COPYRIGHT OWNER.
+
+The  above  copyright  notice  and  this permission  notice  shall  be
+included in all copies or substantial portions of the Software.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT  SHALL THE AUTHORS OR COPYRIGHT HOLDERS  BE LIABLE FOR ANY
+CLAIM, DAMAGES OR  OTHER LIABILITY, WHETHER IN AN  ACTION OF CONTRACT,
+TORT  OR OTHERWISE, ARISING  FROM, OUT  OF OR  IN CONNECTION  WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+==============================================================================
+*/
+ 
+//   
+//   Project Name:        Kratos       
+//   Last modified by:    $Author: rrossi $
+//   Date:                $Date: 2008-06-20 17:38:25 $
+//   Revision:            $Revision: 1.24 $
 //
-//  License:         BSD License
-//                     Kratos default license: kratos/license.txt
-//
-//  Main authors:    Pooyan Dadvand
-//                   Riccardo Rossi
 //
 
-// #define JSON_INCLUDED
 
-// System includes
+// System includes 
 
-// External includes
+// External includes 
+#include <boost/python.hpp>
+
 
 // Project includes
-#include "includes/define_python.h"
-#include "includes/io.h"
-
-#include "includes/model_part_io.h"
-#include "includes/reorder_consecutive_model_part_io.h"
+#include "includes/define.h"
+#include "includes/datafile_io.h"
 #include "includes/gid_io.h"
 #include "python/add_io_to_python.h"
-#include "containers/flags.h"
-
-// Outputs
-#include "input_output/vtk_output.h"
-#include "input_output/unv_output.h"
-#include "input_output/cad_json_input.h"
-
-#ifdef JSON_INCLUDED
-#include "includes/json_io.h"
-#endif
 
 namespace Kratos
 {
+	
+    namespace Python
+    {
 
-namespace Python
-{
+      void (GidIO<>::*pointer_to_io_read_single_properties)(Properties& rThisProperties ) = &IO::ReadProperties;
 
-void (GidIO<>::*pointer_to_io_read_single_properties)(Properties& rThisProperties ) = &IO::ReadProperties;
+      void (GidIO<>::*pointer_to_io_read_properties)(IO::PropertiesContainerType& rThisProperties ) = &IO::ReadProperties;
 
-void (GidIO<>::*pointer_to_io_read_properties)(IO::PropertiesContainerType& rThisProperties ) = &IO::ReadProperties;
+        std::string PrintDatafileIO(DatafileIO const& rDataFileIO)
+        {
+            std::stringstream buffer;
+            rDataFileIO.PrintInfo(buffer);
+            buffer << std::endl;
+            rDataFileIO.PrintData(buffer);
 
-
-void WriteNodeMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
-{
-    dummy.WriteNodeMesh( rThisMesh );
-}
-
-void WriteSphereMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
-{
-    dummy.WriteSphereMesh( rThisMesh );
-}
-
-void WriteCircleMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
-{
-    dummy.WriteCircleMesh( rThisMesh );
-}
-
-void WriteClusterMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
-{
-    dummy.WriteClusterMesh( rThisMesh );
-}
-
-void WriteMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
-{
-    dummy.WriteMesh( rThisMesh );
-}
-
-
-void FlagsPrintOnGaussPoints( GidIO<>& dummy, Kratos::Flags rFlag, std::string rFlagName,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintFlagsOnGaussPoints( rFlag, rFlagName, rModelPart, SolutionTag );
-}
-
-void BoolPrintOnGaussPoints( GidIO<>& dummy, const Variable<bool>& rVariable,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-void IntPrintOnGaussPoints( GidIO<>& dummy, const Variable<int>& rVariable,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-void DoublePrintOnGaussPoints( GidIO<>& dummy, const Variable<double>& rVariable,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-void Array1DPrintOnGaussPoints( GidIO<>& dummy, const Variable<array_1d<double,3> >& rVariable,
-                                ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-void VectorPrintOnGaussPoints( GidIO<>& dummy, const Variable<Vector>& rVariable,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-void MatrixPrintOnGaussPoints( GidIO<>& dummy, const Variable<Matrix>& rVariable,
-                               ModelPart& rModelPart, double SolutionTag )
-{
-    dummy.PrintOnGaussPoints( rVariable, rModelPart, SolutionTag );
-}
-
-
-void (GidIO<>::*pointer_to_bool_write_nodal_results)( Variable<bool> const& rVariable,
-        GidIO<>::NodesContainerType& rNodes, double SolutionTag,
-        std::size_t SolutionStepNumber ) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*pointer_to_double_write_nodal_results)( Variable<double> const& rVariable,
-        GidIO<>::NodesContainerType& rNodes, double SolutionTag,
-        std::size_t SolutionStepNumber ) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*pointer_to_int_write_nodal_results)( Variable<int> const& rVariable,
-        GidIO<>::NodesContainerType& rNodes, double SolutionTag,
-        std::size_t SolutionStepNumber ) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*pointer_to_array1d_write_nodal_results)(
-    Variable<array_1d<double, 3> > const& rVariable, GidIO<>::NodesContainerType& rNodes,
-    double SolutionTag, std::size_t SolutionStepNumber) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*pointer_to_vector_write_nodal_results)(
-    Variable<Vector > const& rVariable, GidIO<>::NodesContainerType& rNodes,
-    double SolutionTag, std::size_t SolutionStepNumber) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*pointer_to_matrix_write_nodal_results)(
-    Variable<Matrix > const& rVariable, GidIO<>::NodesContainerType& rNodes,
-    double SolutionTag, std::size_t SolutionStepNumber) = &GidIO<>::WriteNodalResults;
-void (GidIO<>::*local_axes_write_nodal_results)( Variable<array_1d<double, 3> > const& rVariable,
-        GidIO<>::NodesContainerType& rNodes, double SolutionTag,
-        std::size_t SolutionStepNumber ) = &GidIO<>::WriteLocalAxesOnNodes;
-
-/////////////////////////////////////////////////////////////
-/// NON-HISTORICAL DATABASE                               ///
-////////////////////////////////////////////////////////////
-void (GidIO<>::*pointer_to_flags_write_nodal_results_NH)( Kratos::Flags rFlag, std::string rFlagName,  GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-	= &GidIO<>::WriteNodalFlags;
-
-void (GidIO<>::*pointer_to_bool_write_nodal_results_NH)( Variable<bool> const& rVariable, GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-	= &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*pointer_to_double_write_nodal_results_NH)( Variable<double> const& rVariable,  GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-        = &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*pointer_to_int_write_nodal_results_NH)( Variable<int> const& rVariable,  GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-        = &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*pointer_to_array1d_write_nodal_results_NH)(Variable<array_1d<double, 3> > const& rVariable, GidIO<>::NodesContainerType& rNodes, double SolutionTag) = &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*pointer_to_vector_write_nodal_results_NH)(Variable<Vector > const& rVariable, GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-        = &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*pointer_to_matrix_write_nodal_results_NH)(Variable<Matrix > const& rVariable, GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-	= &GidIO<>::WriteNodalResultsNonHistorical;
-void (GidIO<>::*local_axes_write_nodal_results_NH)( Variable<array_1d<double, 3> > const& rVariable, GidIO<>::NodesContainerType& rNodes, double SolutionTag)
-	= &GidIO<>::WriteLocalAxesOnNodesNonHistorical;
+            return buffer.str();
+        }
+        
+        void WriteNodeMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
+        {
+            KRATOS_WATCH("writing Node Mesh");
+            dummy.WriteNodeMesh( rThisMesh );
+        }
+        
+        void WriteMesh( GidIO<>& dummy, GidIO<>::MeshType& rThisMesh )
+        {
+            dummy.WriteMesh( rThisMesh );
+        }
+        
+        void DoublePrintOnGaussPoints( GidIO<>& dummy, const Variable<double>& rVariable,
+                                       ModelPart& r_model_part, double SolutionTag )
+        {
+            dummy.PrintOnGaussPoints( rVariable, r_model_part, SolutionTag );
+        }
+        
+        void VectorPrintOnGaussPoints( GidIO<>& dummy, const Variable<Vector>& rVariable,
+                                       ModelPart& r_model_part, double SolutionTag )
+        {
+            dummy.PrintOnGaussPoints( rVariable, r_model_part, SolutionTag );
+        }
+        
+        void MatrixPrintOnGaussPoints( GidIO<>& dummy, const Variable<Matrix>& rVariable,
+                                       ModelPart& r_model_part, double SolutionTag )
+        {
+            dummy.PrintOnGaussPoints( rVariable, r_model_part, SolutionTag );
+        }
+        
+        void (GidIO<>::*pointer_to_double_write_nodal_results)( Variable<double> const& rVariable,
+              GidIO<>::NodesContainerType& rNodes, double SolutionTag, 
+              std::size_t SolutionStepNumber ) = &GidIO<>::WriteNodalResults;
+        void (GidIO<>::*pointer_to_array1d_write_nodal_results)( 
+              Variable<array_1d<double, 3> > const& rVariable, GidIO<>::NodesContainerType& rNodes, 
+              double SolutionTag, std::size_t SolutionStepNumber) = &GidIO<>::WriteNodalResults;
+        
+//         void (GidIO::*pointer_to_vector_write_nodal_results)(Variable<Vector > const& rVariable, GidIO::NodesContainerType& rNodes, double SolutionTag, std::size_t SolutionStepNumber) = &GidIO::WriteNodalResults;
+//         void (GidIO::*pointer_to_matrix_write_nodal_results)(Variable<Matrix > const& rVariable, GidIO::NodesContainerType& rNodes, double SolutionTag, std::size_t SolutionStepNumber) = &GidIO::WriteNodalResults;
 
 //         void (GidIO::*pointer_to_double_cond_print_on_gauss_points)(const Variable<double>& rVariable,
-//               ModelPart& rModelPart, double SolutionTag) = &GidIO::CondPrintOnGaussPoints;
+//               ModelPart& r_model_part, double SolutionTag) = &GidIO::CondPrintOnGaussPoints;
 //         void (GidIO<>::*pointer_to_double_print_on_gauss_points)(const Variable<double >& rVariable,
-//               ModelPart& rModelPart, double SolutionTag)
+//               ModelPart& r_model_part, double SolutionTag) 
 //                 = &GidIO<>::PrintOnGaussPoints;
 //         void (GidIO<>::*pointer_to_matrix_print_on_gauss_points)(const Variable<Matrix >& rVariable,
-//               ModelPart& rModelPart, double SolutionTag)
+//               ModelPart& r_model_part, double SolutionTag) 
 //                 = &GidIO<>::PrintOnGaussPoints;
 //         void (GidIO<>::*pointer_to_vector_print_on_gauss_points)(const Variable<Vector >& rVariable,
-//               ModelPart& rModelPart, double SolutionTag)
+//               ModelPart& r_model_part, double SolutionTag) 
 //                 = &GidIO<>::PrintOnGaussPoints;
 
-void ReadInitialValues1(IO& IO, IO::NodesContainerType& rThisNodes, IO::ElementsContainerType& rThisElements, IO::ConditionsContainerType& rThisConditions){ IO.ReadInitialValues(rThisNodes, rThisElements, rThisConditions);}
-void ReadInitialValues2(IO& IO, ModelPart& rThisModelPart){ IO.ReadInitialValues(rThisModelPart);}
+        void  AddIOToPython()
+        {
+            using namespace boost::python;
+            
+            class_<IO, IO::Pointer, boost::noncopyable>("IO")
+                    .def("ReadNode",&IO::ReadNode)
+                    .def("ReadNodes",&IO::ReadNodes)
+                    .def("WriteNodes",&IO::WriteNodes)
+                    .def("ReadProperties",pointer_to_io_read_single_properties)
+                    .def("ReadProperties",pointer_to_io_read_properties)
+                    .def("ReadElements",&IO::ReadElements)
+                    .def("WriteElements",&IO::WriteElements)
+                    .def("ReadConditions",&IO::ReadConditions)
+                    .def("ReadInitialValues",&IO::ReadInitialValues)
+                    .def("ReadMesh",&IO::ReadMesh)
+                    .def("ReadModelPart",&IO::ReadModelPart)
+                    .def("__str__",PrintDatafileIO)
+	      ;
 
-
-
-
-void  AddIOToPython(pybind11::module& m)
-{
-    namespace py = pybind11;
-
-    py::class_<IO, IO::Pointer> io_python_interface = py::class_<IO, IO::Pointer>(m,"IO")
-    .def("ReadNode",&IO::ReadNode)
-    .def("ReadNodes",&IO::ReadNodes)
-    .def("WriteNodes",&IO::WriteNodes)
-    .def("ReadProperties",[](IO& self, Properties& rThisProperties){self.ReadProperties(rThisProperties);})
-    .def("ReadProperties",[](IO& self,IO::PropertiesContainerType& rThisProperties){self.ReadProperties(rThisProperties);})
-//     .def("ReadProperties",pointer_to_io_read_properties)
-    .def("ReadElements",&IO::ReadElements)
-    .def("WriteElements",&IO::WriteElements)
-    .def("ReadConditions",&IO::ReadConditions)
-    .def("WriteConditions",&IO::WriteConditions)
-    .def("ReadInitialValues",&ReadInitialValues1)
-    .def("ReadInitialValues",&ReadInitialValues2)
-    .def("ReadMesh",&IO::ReadMesh)
-    .def("ReadModelPart",&IO::ReadModelPart)
-    .def("WriteModelPart",&IO::WriteModelPart)
-	;
-	io_python_interface.attr("READ") = IO::READ;
-	io_python_interface.attr("WRITE") =IO::WRITE;
-	io_python_interface.attr("APPEND") = IO::APPEND;
-	io_python_interface.attr("IGNORE_VARIABLES_ERROR" ) = IO::IGNORE_VARIABLES_ERROR;
-  io_python_interface.attr("SKIP_TIMER" ) = IO::SKIP_TIMER;
-  io_python_interface.attr("MESH_ONLY" ) = IO::MESH_ONLY;
-
-    py::class_<ModelPartIO, ModelPartIO::Pointer, IO>(
-       m, "ModelPartIO")
-        .def(py::init<std::string const&>())
-        .def(py::init<std::string const&, const Flags>())
-    ;
-
-
-    py::class_<ReorderConsecutiveModelPartIO, ReorderConsecutiveModelPartIO::Pointer, ModelPartIO>(m,"ReorderConsecutiveModelPartIO")
-        .def(py::init<std::string const&>())
-        .def(py::init<std::string const&, const Flags>())
-    ;
-#ifdef JSON_INCLUDED
-    py::class_<KratosJsonIO, KratosJsonIO::Pointer, IO>(m,
-         "JsonIO",init<std::string const&>())
-        .def(py::init<std::string const&, const Flags>())
-    ;
-#endif
-
-    /*
-    py::class_<ModelPartIO, ModelPartIO::Pointer, bases<IO>,  boost::noncopyable>(
-        "ModelPartIOWithSkipReadFlag",init<std::string const&, bool const>())
-    ;*/
-
-    py::class_<GidIO<>, GidIO<>::Pointer, IO>(m,
-        "GidIO")
-    .def(py::init<std::string const&, GiD_PostMode,
-        MultiFileFlag,
-        WriteDeformedMeshFlag,
-        WriteConditionsFlag>())
-    //.def(py::init<std::string const&>())
-    .def("WriteMesh",WriteMesh)
-    .def("WriteNodeMesh",WriteNodeMesh)
-    .def("WriteSphereMesh",WriteSphereMesh)
-    .def("WriteCircleMesh",WriteCircleMesh)
-    .def("WriteClusterMesh",WriteClusterMesh)
-
-    .def("InitializeMesh",&GidIO<>::InitializeMesh)
-    .def("FinalizeMesh",&GidIO<>::FinalizeMesh)
-
-    .def("InitializeResults",&GidIO<>::InitializeResults)
-    .def("FinalizeResults",&GidIO<>::FinalizeResults)
-
-    .def("WriteNodalResults",pointer_to_bool_write_nodal_results)
-    .def("WriteNodalResults",pointer_to_double_write_nodal_results)
-    .def("WriteNodalResults",pointer_to_int_write_nodal_results)
-    .def("WriteNodalResults",pointer_to_array1d_write_nodal_results)
-    .def("WriteNodalResults",pointer_to_vector_write_nodal_results)
-    .def("WriteNodalResults",pointer_to_matrix_write_nodal_results)
-
-    .def("WriteLocalAxesOnNodes",local_axes_write_nodal_results)
-    // NonHistorical
-    .def("WriteNodalFlags",pointer_to_flags_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_bool_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_double_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_int_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_array1d_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_vector_write_nodal_results_NH)
-    .def("WriteNodalResultsNonHistorical",pointer_to_matrix_write_nodal_results_NH)
-    .def("WriteLocalAxesOnNodesNonHistorical",local_axes_write_nodal_results_NH)
-
+            class_<DatafileIO, DatafileIO::Pointer, bases<IO>,  boost::noncopyable>(
+                    "DatafileIO",init<std::string const&>())
+                    .def(init<std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         std::string const&>())
+                    //.def("",&DatafileIO::)
+                    //.def(self_ns::str(self))
+                    ;
+            
+            class_<GidIO<>, GidIO<>::Pointer, bases<DatafileIO>, boost::noncopyable>(
+                    "GidIO",init<std::string const&, GiD_PostMode,
+                    MultiFileFlag,
+                    WriteDeformedMeshFlag,
+                    WriteConditionsFlag>())
+                    //.def(init<std::string const&>())
+                    .def(init<std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         std::string const&, 
+                         GiD_PostMode,
+                         MultiFileFlag,
+                         WriteDeformedMeshFlag,
+                         WriteConditionsFlag>())
+                    .def("WriteMesh",WriteMesh)
+                    .def("WriteNodeMesh",WriteNodeMesh)
+                    
+                    .def("InitializeMesh",&GidIO<>::InitializeMesh)
+                    .def("FinalizeMesh",&GidIO<>::FinalizeMesh)
+                    
+                    .def("InitializeResults",&GidIO<>::InitializeResults)
+                    .def("FinalizeResults",&GidIO<>::FinalizeResults)
+                    
+                    .def("WriteNodalResults",pointer_to_double_write_nodal_results)
+                    .def("WriteNodalResults",pointer_to_array1d_write_nodal_results)
+//                     .def("WriteNodalResults",pointer_to_vector_write_nodal_results)
+//                     .def("WriteNodalResults",pointer_to_matrix_write_nodal_results)
+                    
 //                     .def("PrintOnGaussPoints", pointer_to_double_print_on_gauss_points)
-    .def("PrintFlagsOnGaussPoints", FlagsPrintOnGaussPoints)
-    .def("PrintOnGaussPoints", BoolPrintOnGaussPoints)
-    .def("PrintOnGaussPoints", IntPrintOnGaussPoints)
-    .def("PrintOnGaussPoints", DoublePrintOnGaussPoints)
-    .def("PrintOnGaussPoints", Array1DPrintOnGaussPoints)
-    .def("PrintOnGaussPoints", VectorPrintOnGaussPoints)
-    .def("PrintOnGaussPoints", MatrixPrintOnGaussPoints)
-
-
+                    .def("PrintOnGaussPoints", DoublePrintOnGaussPoints)
+                    .def("PrintOnGaussPoints", VectorPrintOnGaussPoints)
+                    .def("PrintOnGaussPoints", MatrixPrintOnGaussPoints)
 //                     .def("PrintOnGaussPoints", pointer_to_vector_print_on_gauss_points)
 //                     .def("PrintOnGaussPoints", pointer_to_matrix_print_on_gauss_points)
 //                     .def("CondPrintOnGaussPoints", pointer_to_double_cond_print_on_gauss_points)
+                    
+                    .def("Flush",&GidIO<>::Flush)
+                    .def("ChangeOutputName",&GidIO<>::ChangeOutputName)
+                    .def("CloseResultFile",&GidIO<>::CloseResultFile)
+                    //.def("",&DatafileIO::) 
+                    //.def(self_ns::str(self))
+                    ;
 
-    .def("Flush",&GidIO<>::Flush)
-    .def("ChangeOutputName",&GidIO<>::ChangeOutputName)
-    .def("CloseResultFile",&GidIO<>::CloseResultFile)
-    //.def("",&DatafileIO::)
-    //.def(self_ns::str(self))
-    ;
-
-    py::enum_<GiD_PostMode>(m,"GiDPostMode")
-    .value("GiD_PostAscii", GiD_PostAscii)
-    .value("GiD_PostAsciiZipped", GiD_PostAsciiZipped)
-    .value("GiD_PostBinary", GiD_PostBinary)
-    .value("GiD_PostHDF5", GiD_PostHDF5)
-    ;
-
-    py::enum_<WriteDeformedMeshFlag>(m,"WriteDeformedMeshFlag")
-    .value("WriteDeformed", WriteDeformed)
-    .value("WriteUndeformed", WriteUndeformed)
-    ;
-
-    py::enum_<WriteConditionsFlag>(m,"WriteConditionsFlag")
-    .value("WriteConditions",WriteConditions)
-    .value("WriteElementsOnly",WriteElementsOnly)
-    .value("WriteConditionsOnly",WriteConditionsOnly)
-    ;
-
-    py::enum_<MultiFileFlag>(m,"MultiFileFlag")
-    .value("SingleFile",SingleFile)
-    .value("MultipleFiles",MultipleFiles)
-    ;
-
-
-    py::class_<VtkOutput, VtkOutput::Pointer, IO>(m, "VtkOutput")
-        .def(py::init< ModelPart&>())
-        .def(py::init< ModelPart&, Parameters >())
-        .def("PrintOutput", &VtkOutput::PrintOutput, py::arg("output_filename")="")
-        .def_static("GetDefaultParameters", &VtkOutput::GetDefaultParameters)
-        ;
-
-    py::class_<UnvOutput, UnvOutput::Pointer>(m, "UnvOutput")
-        .def(py::init<ModelPart&, const std::string &>())
-        .def("InitializeMesh", &UnvOutput::InitializeOutputFile)
-        .def("WriteMesh", &UnvOutput::WriteMesh)
-        .def("PrintOutput", (void (UnvOutput::*)(const Variable<bool>&, const double)) &UnvOutput::WriteNodalResults)
-        .def("PrintOutput", (void (UnvOutput::*)(const Variable<int>&, const double)) &UnvOutput::WriteNodalResults)
-        .def("PrintOutput", (void (UnvOutput::*)(const Variable<double>&, const double)) &UnvOutput::WriteNodalResults)
-        .def("PrintOutput", (void (UnvOutput::*)(const Variable<array_1d<double,3>>&, const double)) &UnvOutput::WriteNodalResults)
-        ;
-
-    // Import of CAD models to the model part
-    py::class_<CadJsonInput<>, CadJsonInput<>::Pointer>(m, "CadJsonInput")
-        .def(py::init<const std::string &>())
-        .def(py::init<const std::string&, std::size_t>())
-        .def(py::init<Parameters>())
-        .def(py::init<Parameters, std::size_t>())
-        .def("ReadModelPart", &CadJsonInput<>::ReadModelPart)
-        ;
-}
-}  // namespace Python.
+            enum_<GiD_PostMode>("GiDPostMode")
+                    .value("GiD_PostAscii", GiD_PostAscii)
+                    .value("GiD_PostAsciiZipped", GiD_PostAsciiZipped)
+                    .value("GiD_PostBinary", GiD_PostBinary)
+                    ;
+            
+            enum_<WriteDeformedMeshFlag>("WriteDeformedMeshFlag")
+                    .value("WriteDeformed", WriteDeformed)
+                    .value("WriteUndeformed", WriteUndeformed)
+                    ;
+            
+            enum_<WriteConditionsFlag>("WriteConditionsFlag")
+                    .value("WriteConditions",WriteConditions)
+                    .value("WriteElementsOnly",WriteElementsOnly)
+                    ;
+            
+            enum_<MultiFileFlag>("MultiFileFlag")
+                    .value("SingleFile",SingleFile)
+                    .value("MultipleFiles",MultipleFiles)
+                    ;
+        }	
+    }  // namespace Python.
 
 } // Namespace Kratos
-
 

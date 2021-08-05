@@ -1,0 +1,19 @@
+@startuml
+set namespaceSeparator ::
+
+class Kratos::VariableComponent <TAdaptorType> {
++ const Kratos::VariableComponent::SourceVariableType & GetSourceVariable()
++ const Kratos::VariableComponent::AdaptorType & GetAdaptor()
++ Kratos::VariableComponent::DataType & GetValue(Kratos::VariableComponent::SourceType & SourceValue)
++ const Kratos::VariableComponent::DataType & GetValue(const Kratos::VariableComponent::SourceType & SourceValue)
++ const VariableComponent<TAdaptorType> & StaticObject()
++ int Info()
++ void PrintInfo(int & rOStream)
+}
+
+class Kratos::VariableData {
++ Kratos::VariableData::KeyType mKey
+}
+
+Kratos::VariableComponent -up-|> Kratos::VariableData
+@enduml

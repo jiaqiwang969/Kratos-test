@@ -1,249 +1,203 @@
-//    |  /           |
-//    ' /   __| _` | __|  _ \   __|
-//    . \  |   (   | |   (   |\__ `
-//   _|\_\_|  \__,_|\__|\___/ ____/
-//                   Multi-Physics
-//
-//  License:         BSD License
-//                   Kratos default license: kratos/license.txt
-//
-//  Main authors:    Riccardo Rossi
+/*
+==============================================================================
+Kratos
+A General Purpose Software for Multi-Physics Finite Element Analysis
+Version 1.0 (Released on march 05, 2007).
+
+Copyright 2007
+Pooyan Dadvand, Riccardo Rossi
+pooyan@cimne.upc.edu
+rrossi@cimne.upc.edu
+CIMNE (International Center for Numerical Methods in Engineering),
+Gran Capita' s/n, 08034 Barcelona, Spain
+
+Permission is hereby granted, free  of charge, to any person obtaining
+a  copy  of this  software  and  associated  documentation files  (the
+"Software"), to  deal in  the Software without  restriction, including
+without limitation  the rights to  use, copy, modify,  merge, publish,
+distribute,  sublicense and/or  sell copies  of the  Software,  and to
+permit persons to whom the Software  is furnished to do so, subject to
+the following condition:
+
+Distribution of this code for  any  commercial purpose  is permissible
+ONLY BY DIRECT ARRANGEMENT WITH THE COPYRIGHT OWNER.
+
+The  above  copyright  notice  and  this permission  notice  shall  be
+included in all copies or substantial portions of the Software.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT  SHALL THE AUTHORS OR COPYRIGHT HOLDERS  BE LIABLE FOR ANY
+CLAIM, DAMAGES OR  OTHER LIABILITY, WHETHER IN AN  ACTION OF CONTRACT,
+TORT  OR OTHERWISE, ARISING  FROM, OUT  OF OR  IN CONNECTION  WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+==============================================================================
+*/
+ 
+//   
+//   Project Name:        Kratos       
+//   Last modified by:    $Author: mossaiby $
+//   Date:                $Date: 2008-12-22 14:49:02 $
+//   Revision:            $Revision: 1.5 $
 //
 //
 
 
-// System includes
+// System includes 
 
-// External includes
+// External includes 
+#include <boost/python.hpp>
 
 
 // Project includes
-#include "includes/define_python.h"
-#include "python/add_linear_solvers_to_python.h"
+#include "includes/define.h"
+#include "python/add_equation_systems_to_python.h" 
 #include "linear_solvers/cg_solver.h"
 #include "linear_solvers/deflated_cg_solver.h"
 #include "linear_solvers/bicgstab_solver.h"
 #include "linear_solvers/tfqmr_solver.h"
 #include "includes/dof.h"
 #include "spaces/ublas_space.h"
-#include "includes/ublas_complex_interface.h"
 
 #include "linear_solvers/reorderer.h"
 #include "linear_solvers/direct_solver.h"
 #include "linear_solvers/skyline_lu_factorization_solver.h"
-#include "linear_solvers/skyline_lu_custom_scalar_solver.h"
-#include "linear_solvers/scaling_solver.h"
 
 #include "linear_solvers/preconditioner.h"
 #include "linear_solvers/diagonal_preconditioner.h"
 #include "linear_solvers/ilu0_preconditioner.h"
 #include "linear_solvers/ilu_preconditioner.h"
+//#include "linear_solvers/superlu_solver.h"
 #include "linear_solvers/power_iteration_eigenvalue_solver.h"
-#include "linear_solvers/power_iteration_highest_eigenvalue_solver.h"
-#include "linear_solvers/rayleigh_quotient_iteration_eigenvalue_solver.h"
+
+
 
 namespace Kratos
 {
-
+	
 namespace Python
 {
-    template <class TDataType>
-    using TSpaceType = UblasSpace<TDataType, boost::numeric::ublas::compressed_matrix<TDataType>, boost::numeric::ublas::vector<TDataType>>;
-    template <class TDataType>
-    using TLocalSpaceType = UblasSpace<TDataType, DenseMatrix<TDataType>, DenseVector<TDataType>>;
-    template <class TDataType, class TOtherDataType>
-    using TLinearSolverType = LinearSolver<TSpaceType<TDataType>, TLocalSpaceType<TOtherDataType>>;
-    template <class TDataType>
-    using TDirectSolverType = DirectSolver<TUblasSparseSpace<TDataType>, TUblasDenseSpace<TDataType>>;
+  void  AddLinearSolversToPython()
+  {
+typedef UblasSpace<double, CompressedMatrix, Vector> SpaceType;
+typedef UblasSpace<double, Matrix, Vector> LocalSpaceType;
+typedef LinearSolver<SpaceType,  LocalSpaceType> LinearSolverType;
+typedef IterativeSolver<SpaceType,  LocalSpaceType> IterativeSolverType;
+typedef CGSolver<SpaceType,  LocalSpaceType> CGSolverType;
+typedef DeflatedCGSolver<SpaceType,  LocalSpaceType> DeflatedCGSolverType;
+typedef BICGSTABSolver<SpaceType,  LocalSpaceType> BICGSTABSolverType;
+typedef TFQMRSolver<SpaceType,  LocalSpaceType> TFQMRSolverType;
+typedef PowerIterationEigenvalueSolver<SpaceType, LocalSpaceType, LinearSolverType> PowerIterationEigenvalueSolverType;
 
-void  AddLinearSolversToPython(pybind11::module& m)
-{
-    namespace py = pybind11;
+	bool (LinearSolverType::*pointer_to_solve)(LinearSolverType::SparseMatrixType& rA, LinearSolverType::VectorType& rX, LinearSolverType::VectorType& rB) = &LinearSolverType::Solve;
 
-    typedef UblasSpace<double, CompressedMatrix, boost::numeric::ublas::vector<double>> SpaceType;
-    typedef UblasSpace<double, Matrix, Vector> LocalSpaceType;
-    typedef TUblasSparseSpace<std::complex<double>> ComplexSpaceType;
-    typedef TUblasDenseSpace<std::complex<double>> ComplexLocalSpaceType;
+  using namespace boost::python;
 
-    typedef LinearSolver<SpaceType,  LocalSpaceType> LinearSolverType;
-    typedef IterativeSolver<SpaceType,  LocalSpaceType> IterativeSolverType;
-    typedef CGSolver<SpaceType,  LocalSpaceType> CGSolverType;
-    typedef DeflatedCGSolver<SpaceType,  LocalSpaceType> DeflatedCGSolverType;
-    typedef BICGSTABSolver<SpaceType,  LocalSpaceType> BICGSTABSolverType;
-    typedef TFQMRSolver<SpaceType,  LocalSpaceType> TFQMRSolverType;
-    typedef ScalingSolver<SpaceType,  LocalSpaceType> ScalingSolverType;
-    typedef PowerIterationEigenvalueSolver<SpaceType, LocalSpaceType, LinearSolverType> PowerIterationEigenvalueSolverType;
-    typedef PowerIterationHighestEigenvalueSolver<SpaceType, LocalSpaceType, LinearSolverType> PowerIterationHighestEigenvalueSolverType;
-    typedef RayleighQuotientIterationEigenvalueSolver<SpaceType, LocalSpaceType, LinearSolverType> RayleighQuotientIterationEigenvalueSolverType;
+  //****************************************************************************************************
+  //preconditioners
+  //****************************************************************************************************
+	typedef Preconditioner<SpaceType,  LocalSpaceType> PreconditionerType;
+	
+    class_<PreconditionerType, PreconditionerType::Pointer>("Preconditioner")
+		  .def(self_ns::str(self))
+		  ;
 
-    typedef TLinearSolverType<std::complex<double>, std::complex<double>> ComplexLinearSolverType;
-    typedef TLinearSolverType<double, std::complex<double>> MixedLinearSolverType;
-    typedef TDirectSolverType<std::complex<double>> ComplexDirectSolverType;
-    typedef SkylineLUCustomScalarSolver<ComplexSpaceType, ComplexLocalSpaceType> ComplexSkylineLUSolverType;
+	typedef DiagonalPreconditioner<SpaceType,  LocalSpaceType> DiagonalPreconditionerType;
+	class_<DiagonalPreconditionerType, DiagonalPreconditionerType::Pointer, bases<PreconditionerType> >("DiagonalPreconditioner")
+		  .def(self_ns::str(self))
+		  ;
 
-    bool (LinearSolverType::*pointer_to_solve)(LinearSolverType::SparseMatrixType& rA, LinearSolverType::VectorType& rX, LinearSolverType::VectorType& rB) = &LinearSolverType::Solve;
-    void (LinearSolverType::*pointer_to_solve_eigen)(LinearSolverType::SparseMatrixType& rK, LinearSolverType::SparseMatrixType& rM,LinearSolverType::DenseVectorType& Eigenvalues, LinearSolverType::DenseMatrixType& Eigenvectors) = &LinearSolverType::Solve;
-    bool (ComplexLinearSolverType::*pointer_to_complex_solve)(ComplexLinearSolverType::SparseMatrixType& rA, ComplexLinearSolverType::VectorType& rX, ComplexLinearSolverType::VectorType& rB) = &ComplexLinearSolverType::Solve;
-    void (ComplexLinearSolverType::*pointer_to_complex_solve_eigen)(ComplexLinearSolverType::SparseMatrixType& rK, ComplexLinearSolverType::SparseMatrixType& rM, ComplexLinearSolverType::DenseVectorType& Eigenvalues, ComplexLinearSolverType::DenseMatrixType& Eigenvectors) = &ComplexLinearSolverType::Solve;
-    void (MixedLinearSolverType::*pointer_to_mixed_solve_eigen)(MixedLinearSolverType::SparseMatrixType& rK, MixedLinearSolverType::SparseMatrixType& rM,MixedLinearSolverType::DenseVectorType& Eigenvalues, MixedLinearSolverType::DenseMatrixType& Eigenvectors) = &MixedLinearSolverType::Solve;
+	typedef ILUPreconditioner<SpaceType,  LocalSpaceType> ILUPreconditionerType;
+	class_<ILUPreconditionerType, ILUPreconditionerType::Pointer, bases<PreconditionerType> >("ILUPreconditioner")
+		  .def(self_ns::str(self))
+		  ;
+	
+	typedef ILU0Preconditioner<SpaceType,  LocalSpaceType> ILU0PreconditionerType;
+	class_<ILU0PreconditionerType, ILU0PreconditionerType::Pointer, bases<PreconditionerType> >("ILU0Preconditioner")
+		  .def(self_ns::str(self))
+		  ;
 
-    //****************************************************************************************************
-    //preconditioners
-    //****************************************************************************************************
-    typedef Preconditioner<SpaceType,  LocalSpaceType> PreconditionerType;
+  //****************************************************************************************************
+  //linear solvers
+  //****************************************************************************************************
+  class_<LinearSolverType, LinearSolverType::Pointer>("LinearSolver")
+		  .def("Initialize",&LinearSolverType::Initialize)
+		  .def("Solve",pointer_to_solve)
+		  //.def("",&LinearSolverType::)
+		  .def(self_ns::str(self))
+		  ;
 
-    py::class_<PreconditionerType, PreconditionerType::Pointer>(m,"Preconditioner")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<PreconditionerType>)
-    ;
+  class_<IterativeSolverType, IterativeSolverType::Pointer, bases<LinearSolverType> >("IterativeSolver")
+		  //.def("",&LinearSolverType::)
+		  .def(self_ns::str(self))
+		  ;
 
-    typedef DiagonalPreconditioner<SpaceType,  LocalSpaceType> DiagonalPreconditionerType;
-    py::class_<DiagonalPreconditionerType, DiagonalPreconditionerType::Pointer, PreconditionerType>(m,"DiagonalPreconditioner")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<DiagonalPreconditionerType>)
-    ;
+  class_<CGSolverType, CGSolverType::Pointer, bases<IterativeSolverType> >("CGSolver")
+		  .def(init<double>())
+		  .def(init<double, unsigned int>())
+		  .def(init<double, unsigned int,  PreconditionerType::Pointer>())
+		  //.def("",&LinearSolverType::)
+		  .def(self_ns::str(self))
+		  ;
 
-    typedef ILUPreconditioner<SpaceType,  LocalSpaceType> ILUPreconditionerType;
-    py::class_<ILUPreconditionerType, ILUPreconditionerType::Pointer, PreconditionerType>(m,"ILUPreconditioner")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<ILUPreconditionerType>)
-    ;
+  class_<BICGSTABSolverType, BICGSTABSolverType::Pointer, bases<IterativeSolverType> >("BICGSTABSolver")
+		  .def(init<double>())
+		  .def(init<double, unsigned int>())
+		  .def(self_ns::str(self))
+		  .def(init<double, unsigned int,  PreconditionerType::Pointer>())
+		  ;
+  
+  class_<TFQMRSolverType, TFQMRSolverType::Pointer, bases<IterativeSolverType> >("TFQMRSolver")
+		  .def(init<double>())
+		  .def(init<double, unsigned int>())
+		  .def(self_ns::str(self))
+		  .def(init<double, unsigned int,  PreconditionerType::Pointer>())
+		  ;  
+          
+          class_<PowerIterationEigenvalueSolverType, PowerIterationEigenvalueSolverType::Pointer, bases<LinearSolverType> >("PowerIterationEigenvalueSolver")
+                  .def(init<double, unsigned int, unsigned int, LinearSolverType::Pointer>())
+                          ;
 
-    typedef ILU0Preconditioner<SpaceType,  LocalSpaceType> ILU0PreconditionerType;
-    py::class_<ILU0PreconditionerType, ILU0PreconditionerType::Pointer, PreconditionerType>(m,"ILU0Preconditioner")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<ILU0PreconditionerType>)
-    ;
+	typedef Reorderer<SpaceType,  LocalSpaceType > ReordererType;
+	typedef DirectSolver<SpaceType,  LocalSpaceType, ReordererType > DirectSolverType;
+	typedef SkylineLUFactorizationSolver<SpaceType,  LocalSpaceType, ReordererType > SkylineLUFactorizationSolverType;	
 
-    //****************************************************************************************************
-    //linear solvers
-    //****************************************************************************************************
-    py::class_<LinearSolverType, LinearSolverType::Pointer>(m,"LinearSolver")
-    .def(py::init< >() )
-    .def("Initialize",&LinearSolverType::Initialize)
-    .def("Solve",pointer_to_solve)
-    .def("Solve",pointer_to_solve_eigen)
-    .def("Clear",&LinearSolverType::Clear)
-    .def("__str__", PrintObject<LinearSolverType>)
-    .def( "GetIterationsNumber",&LinearSolverType::GetIterationsNumber)
-    ;
+ 	class_<ReordererType, ReordererType::Pointer >("Reorderer")
+		  .def( init< >() )
+		  .def(self_ns::str(self))
+		  .def( "Initialize",&ReordererType::Initialize)
+		  .def( "Reorder",&ReordererType::Reorder)
+		  .def( "InverseReorder",&ReordererType::InverseReorder)
+		  ;
 
-    py::class_<ComplexLinearSolverType, ComplexLinearSolverType::Pointer>(m,"ComplexLinearSolver")
-    .def(py::init< >() )
-    .def("Initialize",&ComplexLinearSolverType::Initialize)
-    .def("Solve",pointer_to_complex_solve)
-    .def("Solve",pointer_to_complex_solve_eigen)
-    .def("Clear",&ComplexLinearSolverType::Clear)
-    .def("__str__", PrintObject<ComplexLinearSolverType>)
-    ;
+ 	class_<DirectSolverType, DirectSolverType::Pointer, bases<LinearSolverType> >("DirectSolver")
+		  .def( init< >() )
+		  .def(self_ns::str(self))
+		  ;
 
-    py::class_<MixedLinearSolverType, MixedLinearSolverType::Pointer>(m,"MixedLinearSolver")
-    .def(py::init< >() )
-    .def("Initialize",&MixedLinearSolverType::Initialize)
-    .def("Solve",pointer_to_mixed_solve_eigen)
-    .def("Clear",&MixedLinearSolverType::Clear)
-    .def("__str__", PrintObject<MixedLinearSolverType>)
-    ;
+	class_<SkylineLUFactorizationSolverType, SkylineLUFactorizationSolverType::Pointer, bases<DirectSolverType> >("SkylineLUFactorizationSolver")
+		  .def(init< >())
+		  .def(self_ns::str(self))
+		  ;  
 
-    py::class_<IterativeSolverType, IterativeSolverType::Pointer, LinearSolverType>(m,"IterativeSolver")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<IterativeSolverType>)
-    ;
+  class_<DeflatedCGSolverType, DeflatedCGSolverType::Pointer, bases<IterativeSolverType> >("DeflatedCGSolver")
+		  .def(init<double, int>())
+		  .def(init<double, unsigned int, int>())
+		  .def(init<double, unsigned int,  PreconditionerType::Pointer, int>())
+// 		  .def(init<double, unsigned int,  PreconditionerType::Pointer, ModelPart::Pointer>())
+		  //.def("",&LinearSolverType::)
+		  .def(self_ns::str(self))
+		  ;
 
-    py::class_<CGSolverType, CGSolverType::Pointer,IterativeSolverType>(m,"CGSolver")
-    .def(py::init<double>())
-    .def(py::init<double, unsigned int>())
-    .def(py::init<double, unsigned int,  PreconditionerType::Pointer>())
-    .def(py::init<Parameters,  PreconditionerType::Pointer>())
-    .def("__str__", PrintObject<CGSolverType>)
-    ;
-
-    py::class_<BICGSTABSolverType, BICGSTABSolverType::Pointer,IterativeSolverType>(m,"BICGSTABSolver")
-    .def(py::init<double>())
-    .def(py::init<double, unsigned int>())
-    .def("__str__", PrintObject<BICGSTABSolverType>)
-    .def(py::init<double, unsigned int,  PreconditionerType::Pointer>())
-    .def(py::init<Parameters,  PreconditionerType::Pointer>())
-    .def("SetTolerance",&BICGSTABSolverType::SetTolerance)
-    ;
-
-    py::class_<TFQMRSolverType, TFQMRSolverType::Pointer,IterativeSolverType>(m,"TFQMRSolver")
-    .def(py::init<double>())
-    .def(py::init<double, unsigned int>())
-    .def("__str__", PrintObject<TFQMRSolverType>)
-    .def(py::init<double, unsigned int,  PreconditionerType::Pointer>())
-    .def(py::init<Parameters,  PreconditionerType::Pointer>())
-    ;
-
-    py::class_<ScalingSolverType, ScalingSolverType::Pointer, LinearSolverType>(m,"ScalingSolver")
-    .def(py::init<LinearSolverType::Pointer>())
-    .def(py::init<LinearSolverType::Pointer, bool >())
-    .def(py::init<Parameters >())
-    ;
-
-    py::class_<PowerIterationEigenvalueSolverType, PowerIterationEigenvalueSolverType::Pointer, LinearSolverType>(m,"PowerIterationEigenvalueSolver")
-    .def(py::init<double, unsigned int, unsigned int, LinearSolverType::Pointer>())
-    .def(py::init<Parameters, LinearSolverType::Pointer>())
-    ;
-
-    py::class_<PowerIterationHighestEigenvalueSolverType, PowerIterationHighestEigenvalueSolverType::Pointer, LinearSolverType>(m,"PowerIterationHighestEigenvalueSolver")
-    .def(py::init<double, unsigned int, unsigned int, LinearSolverType::Pointer>())
-    .def(py::init<Parameters, LinearSolverType::Pointer>())
-    ;
-
-    py::class_<RayleighQuotientIterationEigenvalueSolverType, RayleighQuotientIterationEigenvalueSolverType::Pointer, LinearSolverType>(m,"RayleighQuotientIterationEigenvalueSolver")
-    .def(py::init<double, unsigned int, unsigned int, LinearSolverType::Pointer, double>())
-    .def(py::init<Parameters, LinearSolverType::Pointer>())
-    ;
-
-    typedef Reorderer<SpaceType,  LocalSpaceType > ReordererType;
-    typedef DirectSolver<SpaceType,  LocalSpaceType, ReordererType > DirectSolverType;
-    typedef SkylineLUFactorizationSolver<SpaceType,  LocalSpaceType, ReordererType > SkylineLUFactorizationSolverType;
-
-    py::class_<ReordererType, ReordererType::Pointer>(m,"Reorderer")
-    .def(py::init< >() )
-    .def("__str__", PrintObject<ReordererType>)
-    .def( "Initialize",&ReordererType::Initialize)
-    .def( "Reorder",&ReordererType::Reorder)
-    .def( "InverseReorder",&ReordererType::InverseReorder)
-    ;
-
-    py::class_<DirectSolverType, DirectSolverType::Pointer, LinearSolverType>(m,"DirectSolver")
-    .def(py::init< >() )
-    .def(py::init<Parameters>())
-    .def("__str__", PrintObject<DirectSolverType>)
-    ;
-
-    py::class_<ComplexDirectSolverType, ComplexDirectSolverType::Pointer, ComplexLinearSolverType>(m,"ComplexDirectSolver")
-    .def(py::init< >() )
-    .def(py::init<Parameters>())
-    .def("__str__", PrintObject<ComplexDirectSolverType>)
-    ;
-
-    py::class_<SkylineLUFactorizationSolverType, SkylineLUFactorizationSolverType::Pointer, DirectSolverType>(m,"SkylineLUFactorizationSolver")
-    .def(py::init< >())
-    .def(py::init<Parameters>())
-    .def("__str__", PrintObject<SkylineLUFactorizationSolverType>)
-    ;
-
-    py::class_<ComplexSkylineLUSolverType, typename ComplexSkylineLUSolverType::Pointer, ComplexDirectSolverType>(m,"ComplexSkylineLUSolver")
-    .def(py::init< >())
-    .def(py::init<Parameters&>())
-    .def("__str__", PrintObject<ComplexSkylineLUSolverType>)
-    ;
-
-    py::class_<DeflatedCGSolverType, DeflatedCGSolverType::Pointer,IterativeSolverType>(m,"DeflatedCGSolver")
-    .def(py::init<double,bool,int>())
-    .def(py::init<double, unsigned int,bool,int>())
-    .def(py::init<double, unsigned int,  PreconditionerType::Pointer,bool,int>())
-    .def(py::init<Parameters>())
-// 		  .def(py::init<double, unsigned int,  PreconditionerType::Pointer, ModelPart*>())
-    //.def("",&LinearSolverType::)
-    .def("__str__", PrintObject<DeflatedCGSolverType>)
-    ;
-
-}
-
+//	typedef SuperLUSolver<SparseSpaceType, LocalSpaceType> SuperLUSolverType;
+//	class_<SuperLUSolverType, bases<DirectSolverType>, boost::noncopyable >
+//		( "SuperLUSolver",
+//			init<>() )
+  }
+	
 }  // namespace Python.
 
 } // Namespace Kratos
+

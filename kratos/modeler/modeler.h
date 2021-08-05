@@ -1,13 +1,46 @@
-//    |  /           |
-//    ' /   __| _` | __|  _ \   __|
-//    . \  |   (   | |   (   |\__ `
-//   _|\_\_|  \__,_|\__|\___/ ____/
-//                   Multi-Physics
-//
-//  License:         BSD License
-//                   Kratos default license: kratos/license.txt
-//
-//  Main authors:    Riccardo Rossi
+/*
+==============================================================================
+Kratos
+A General Purpose Software for Multi-Physics Finite Element Analysis
+Version 1.0 (Released on march 05, 2007).
+
+Copyright 2007
+Pooyan Dadvand, Riccardo Rossi
+pooyan@cimne.upc.edu
+rrossi@cimne.upc.edu
+CIMNE (International Center for Numerical Methods in Engineering),
+Gran Capita' s/n, 08034 Barcelona, Spain
+
+Permission is hereby granted, free  of charge, to any person obtaining
+a  copy  of this  software  and  associated  documentation files  (the
+"Software"), to  deal in  the Software without  restriction, including
+without limitation  the rights to  use, copy, modify,  merge, publish,
+distribute,  sublicense and/or  sell copies  of the  Software,  and to
+permit persons to whom the Software  is furnished to do so, subject to
+the following condition:
+
+Distribution of this code for  any  commercial purpose  is permissible
+ONLY BY DIRECT ARRANGEMENT WITH THE COPYRIGHT OWNER.
+
+The  above  copyright  notice  and  this permission  notice  shall  be
+included in all copies or substantial portions of the Software.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT  SHALL THE AUTHORS OR COPYRIGHT HOLDERS  BE LIABLE FOR ANY
+CLAIM, DAMAGES OR  OTHER LIABILITY, WHETHER IN AN  ACTION OF CONTRACT,
+TORT  OR OTHERWISE, ARISING  FROM, OUT  OF OR  IN CONNECTION  WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+==============================================================================
+*/
+ 
+//   
+//   Project Name:        Kratos       
+//   Last Modified by:    $Author: rrossi $
+//   Date:                $Date: 2007-03-06 10:30:33 $
+//   Revision:            $Revision: 1.2 $
 //
 //
 
@@ -16,168 +49,217 @@
 #define  KRATOS_MODELER_H_INCLUDED
 
 
-// System includes
 
-// External includes
+// System includes
+#include <string>
+#include <iostream> 
+
+
+// External includes 
+
 
 // Project includes
 #include "includes/define.h"
-#include "containers/model.h"
-#include "includes/kratos_components.h"
+
 
 namespace Kratos
 {
 
-///@name Kratos Classes
-///@{
-
-/// Modeler to interact with ModelParts.
-/* The modeler is designed to interact, create and update
-   the ModelPart of the analyses after and at certain steps.
-*/
-class Modeler
-{
-public:
-    ///@name Type Definitions
-    ///@{
-
-    /// Pointer definition of Modeler
-    KRATOS_CLASS_POINTER_DEFINITION(Modeler);
-
-    typedef std::size_t SizeType;
-    typedef std::size_t IndexType;
-
-    ///@}
-    ///@name Life Cycle
-    ///@{
-
-    /// Default constructor.
-    Modeler(
-        Parameters ModelerParameters = Parameters())
-        : mParameters(ModelerParameters)
-        , mEchoLevel(
-            ModelerParameters.Has("echo_level")
-            ? ModelerParameters["echo_level"].GetInt()
-            : 0)
-    {}
-   
-    /// Constructor with Model
-    Modeler(
-        Model& rModel,
-        Parameters ModelerParameters = Parameters())
-        : mParameters(ModelerParameters)
-        , mEchoLevel(
-            ModelerParameters.Has("echo_level")
-            ? ModelerParameters["echo_level"].GetInt()
-            : 0)
-    {}
-
-    /// Destructor.
-    virtual ~Modeler() = default;
-
-    /// Creates the Modeler Pointer
-    virtual Modeler::Pointer Create(
-        Model& rModel, const Parameters ModelParameters) const
+  ///@name Kratos Globals
+  ///@{ 
+  
+  ///@} 
+  ///@name Type Definitions
+  ///@{ 
+  
+  ///@} 
+  ///@name  Enum's
+  ///@{
+      
+  ///@}
+  ///@name  Functions 
+  ///@{
+      
+  ///@}
+  ///@name Kratos Classes
+  ///@{
+  
+  /// Short class definition.
+  /** Detail class definition.
+  */
+  class Modeler
     {
-        KRATOS_ERROR << "Trying to Create Modeler. Please check derived class 'Create' definition." << std::endl;
-    }
+    public:
+      ///@name Type Definitions
+      ///@{
+      
+      /// Pointer definition of Modeler
+      KRATOS_CLASS_POINTER_DEFINITION(Modeler);
+  
+      ///@}
+      ///@name Life Cycle 
+      ///@{ 
+      
+      /// Default constructor.
+      Modeler();
 
-    ///@}
-    ///@name Modeler Stages at Initialize
-    ///@{
+      /// Destructor.
+      virtual ~Modeler();
+      
 
-    /// Import or generate geometry models from external input.
-    virtual void SetupGeometryModel()
-    {}
+      ///@}
+      ///@name Operators 
+      ///@{
+      
+      
+      ///@}
+      ///@name Operations
+      ///@{
+      
+      
+      ///@}
+      ///@name Access
+      ///@{ 
+      
+      
+      ///@}
+      ///@name Inquiry
+      ///@{
+      
+      
+      ///@}      
+      ///@name Input and output
+      ///@{
 
-    /// Prepare or update the geometry model_part.
-    virtual void PrepareGeometryModel()
-    {}
+      /// Turn back information as a string.
+      virtual std::string Info() const;
+      
+      /// Print information about this object.
+      virtual void PrintInfo(std::ostream& rOStream) const;
 
-    /// Convert the geometry model or import analysis suitable models.
-    virtual void SetupModelPart()
-    {}
+      /// Print object's data.
+      virtual void PrintData(std::ostream& rOStream) const;
+      
+            
+      ///@}      
+      ///@name Friends
+      ///@{
+      
+            
+      ///@}
+      
+    protected:
+      ///@name Protected static Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected Operators
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected Operations
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected  Access 
+      ///@{ 
+        
+        
+      ///@}      
+      ///@name Protected Inquiry 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Protected LifeCycle 
+      ///@{ 
+      
+            
+      ///@}
+      
+    private:
+      ///@name Static Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private Operators
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private Operations
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private  Access 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Private Inquiry 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Un accessible methods 
+      ///@{ 
+      
+      /// Assignment operator.
+      Modeler& operator=(Modeler const& rOther);
 
-    ///@}
-    ///@name Operators
-    ///@{
+      /// Copy constructor.
+      Modeler(Modeler const& rOther);
 
-    virtual void GenerateModelPart(ModelPart& rOriginModelPart, ModelPart& rDestinationModelPart, Element const& rReferenceElement, Condition const& rReferenceBoundaryCondition)
+        
+      ///@}    
+        
+    }; // Class Modeler 
+
+  ///@} 
+  
+  ///@name Type Definitions       
+  ///@{ 
+  
+  
+  ///@} 
+  ///@name Input and output 
+  ///@{ 
+        
+ 
+  /// input stream function
+  inline std::istream& operator >> (std::istream& rIStream, 
+				    Modeler& rThis);
+
+  /// output stream function
+  inline std::ostream& operator << (std::ostream& rOStream, 
+				    const Modeler& rThis)
     {
-        KRATOS_ERROR << "This modeler CAN NOT be used for mesh generation." << std::endl;
+      rThis.PrintInfo(rOStream);
+      rOStream << std::endl;
+      rThis.PrintData(rOStream);
+
+      return rOStream;
     }
-
-    virtual void GenerateMesh(ModelPart& ThisModelPart, Element const& rReferenceElement, Condition const& rReferenceBoundaryCondition)
-    {
-        KRATOS_ERROR << "This modeler CAN NOT be used for mesh generation." << std::endl;
-    }
-
-    virtual void GenerateNodes(ModelPart& ThisModelPart)
-    {
-        KRATOS_ERROR << "This modeler CAN NOT be used for node generation." << std::endl;
-    }
-
-    ///@}
-    ///@name Input and output
-    ///@{
-
-    /// Turn back information as a string.
-    virtual std::string Info() const
-    {
-        return "Modeler";
-    }
-
-    /// Print information about this object.
-    virtual void PrintInfo(std::ostream& rOStream) const
-    {
-        rOStream << Info();
-    }
-
-    /// Print object's data.
-    virtual void PrintData(std::ostream& rOStream) const
-    {
-    }
-
-    ///@}
-
-protected:
-    ///@name Protected members
-    ///@{
-
-    Parameters mParameters;
-
-    SizeType mEchoLevel;
-
-    ///@}
-
-}; // Class Modeler
-
-///@}
-///@name Input and output
-///@{
-
-/// input stream function
-inline std::istream& operator >> (std::istream& rIStream,
-                                  Modeler& rThis);
-
-/// output stream function
-inline std::ostream& operator << (std::ostream& rOStream,
-                                  const Modeler& rThis)
-{
-    rThis.PrintInfo(rOStream);
-    rOStream << std::endl;
-    rThis.PrintData(rOStream);
-
-    return rOStream;
-}
-///@}
-
-KRATOS_API_EXTERN template class KRATOS_API(KRATOS_CORE) KratosComponents<Modeler>;
-
-void KRATOS_API(KRATOS_CORE) AddKratosComponent(std::string const& Name, Modeler const& ThisComponent);
-
+  ///@} 
+  
+  
 }  // namespace Kratos.
 
-#endif // KRATOS_MODELER_H_INCLUDED  defined
+#endif // KRATOS_MODELER_H_INCLUDED  defined 
 
 

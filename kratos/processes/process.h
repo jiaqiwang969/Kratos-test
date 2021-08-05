@@ -1,281 +1,280 @@
-//    |  /           |
-//    ' /   __| _` | __|  _ \   __|
-//    . \  |   (   | |   (   |\__ `
-//   _|\_\_|  \__,_|\__|\___/ ____/
-//                   Multi-Physics
+/*
+==============================================================================
+Kratos
+A General Purpose Software for Multi-Physics Finite Element Analysis
+Version 1.0 (Released on march 05, 2007).
+
+Copyright 2007
+Pooyan Dadvand, Riccardo Rossi
+pooyan@cimne.upc.edu
+rrossi@cimne.upc.edu
+CIMNE (International Center for Numerical Methods in Engineering),
+Gran Capita' s/n, 08034 Barcelona, Spain
+
+Permission is hereby granted, free  of charge, to any person obtaining
+a  copy  of this  software  and  associated  documentation files  (the
+"Software"), to  deal in  the Software without  restriction, including
+without limitation  the rights to  use, copy, modify,  merge, publish,
+distribute,  sublicense and/or  sell copies  of the  Software,  and to
+permit persons to whom the Software  is furnished to do so, subject to
+the following condition:
+
+Distribution of this code for  any  commercial purpose  is permissible
+ONLY BY DIRECT ARRANGEMENT WITH THE COPYRIGHT OWNER.
+
+The  above  copyright  notice  and  this permission  notice  shall  be
+included in all copies or substantial portions of the Software.
+
+THE  SOFTWARE IS  PROVIDED  "AS  IS", WITHOUT  WARRANTY  OF ANY  KIND,
+EXPRESS OR  IMPLIED, INCLUDING  BUT NOT LIMITED  TO THE  WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT  SHALL THE AUTHORS OR COPYRIGHT HOLDERS  BE LIABLE FOR ANY
+CLAIM, DAMAGES OR  OTHER LIABILITY, WHETHER IN AN  ACTION OF CONTRACT,
+TORT  OR OTHERWISE, ARISING  FROM, OUT  OF OR  IN CONNECTION  WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+==============================================================================
+*/
+ 
+//   
+//   Project Name:        Kratos       
+//   Last Modified by:    $Author: rrossi $
+//   Date:                $Date: 2007-03-06 10:30:33 $
+//   Revision:            $Revision: 1.2 $
 //
-//  License:		 BSD License
-//					 Kratos default license: kratos/license.txt
 //
-//  Main authors:    Pooyan Dadvand
-//                   Riccardo Rossi
-//
+
 
 #if !defined(KRATOS_PROCESS_H_INCLUDED )
 #define  KRATOS_PROCESS_H_INCLUDED
 
+
+
 // System includes
 #include <string>
-#include <iostream>
+#include <iostream> 
 
-// External includes
+
+// External includes 
+
 
 // Project includes
 #include "includes/define.h"
-#include "includes/kratos_flags.h"
-#include "includes/kratos_parameters.h"
+
 
 namespace Kratos
 {
 
-///@name Kratos Classes
-///@{
-
-// Some forward declarations to avoid increase a lot the compilation time
-class Model;
-
-/**
- * @class Process
- * @ingroup KratosCore
- * @brief The base class for all processes in Kratos.
- * @details The process is the base class for all processes and defines a simple interface for them.
-    Execute method is used to execute the Process algorithms. While the parameters of this method
-  can be very different from one Process to other there is no way to create enough overridden
-  versions of it. For this reason this method takes no argument and all Process parameters must
-  be passed at construction time. The reason is that each constructor can take different set of
-  argument without any dependency to other processes or the base Process class.
-  @author Pooyan Dadvand
-  @author Riccardo Rossi
-*/
-class Process : public Flags
-{
-public:
-    ///@name Type Definitions
-    ///@{
-
-    /// Pointer definition of Process
-    KRATOS_CLASS_POINTER_DEFINITION(Process);
-
-    ///@}
-    ///@name Life Cycle
-    ///@{
-
-    /// Default constructor.
-    Process() : Flags() {}
-    explicit Process(Flags options) : Flags( options ) {}
-
-    /// Destructor.
-    ~Process() override {}
-
-
-    ///@}
-    ///@name Operators
-    ///@{
-
-    /// This operator is provided to call the process as a function and simply calls the Execute method.
-    void operator()()
+  ///@name Kratos Globals
+  ///@{ 
+  
+  ///@} 
+  ///@name Type Definitions
+  ///@{ 
+  
+  ///@} 
+  ///@name  Enum's
+  ///@{
+      
+  ///@}
+  ///@name  Functions 
+  ///@{
+      
+  ///@}
+  ///@name Kratos Classes
+  ///@{
+  
+  /// Short class definition.
+  /** Detail class definition.
+  */
+  class Process
     {
-        Execute();
-    }
+    public:
+      ///@name Type Definitions
+      ///@{
+      
+      /// Pointer definition of Process
+      KRATOS_CLASS_POINTER_DEFINITION(Process);
+  
+      ///@}
+      ///@name Life Cycle 
+      ///@{ 
+      
+      /// Default constructor.
+      Process(){}
 
+      /// Destructor.
+      virtual ~Process(){}
+      
 
-    ///@}
-    ///@name Operations
-    ///@{
+      ///@}
+      ///@name Operators 
+      ///@{
 
-    /**
-     * @brief This method creates an pointer of the process
-     * @details We consider as input a Mmodel and a set of Parameters for the sake of generality
-     * @warning Must be overrided in each process implementation
-     * @param rModel The model to be consider
-     * @param ThisParameters The configuration parameters
-     */
-    virtual Process::Pointer Create(
-        Model& rModel,
-        Parameters ThisParameters
-        )
+      void operator()()
+	{
+	  Execute();
+	}
+      
+      
+      ///@}
+      ///@name Operations
+      ///@{
+
+      virtual void Execute(){}
+      
+      
+      ///@}
+      ///@name Access
+      ///@{ 
+      
+      
+      ///@}
+      ///@name Inquiry
+      ///@{
+      
+      
+      ///@}      
+      ///@name Input and output
+      ///@{
+
+      /// Turn back information as a string.
+      virtual std::string Info() const
+	{
+	  return "Process";
+	}
+      
+      /// Print information about this object.
+      virtual void PrintInfo(std::ostream& rOStream) const
+	{
+	  rOStream << "Process";
+	}
+
+      /// Print object's data.
+      virtual void PrintData(std::ostream& rOStream) const
+	{
+	}
+      
+            
+      ///@}      
+      ///@name Friends
+      ///@{
+      
+            
+      ///@}
+      
+    protected:
+      ///@name Protected static Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected Operators
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected Operations
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Protected  Access 
+      ///@{ 
+        
+        
+      ///@}      
+      ///@name Protected Inquiry 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Protected LifeCycle 
+      ///@{ 
+      
+            
+      ///@}
+      
+    private:
+      ///@name Static Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Member Variables 
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private Operators
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private Operations
+      ///@{ 
+        
+        
+      ///@} 
+      ///@name Private  Access 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Private Inquiry 
+      ///@{ 
+        
+        
+      ///@}    
+      ///@name Un accessible methods 
+      ///@{ 
+      
+      /// Assignment operator.
+      Process& operator=(Process const& rOther);
+
+      /// Copy constructor.
+      //Process(Process const& rOther);
+
+        
+      ///@}    
+        
+    }; // Class Process 
+
+  ///@} 
+  
+  ///@name Type Definitions       
+  ///@{ 
+  
+  
+  ///@} 
+  ///@name Input and output 
+  ///@{ 
+        
+ 
+  /// input stream function
+  inline std::istream& operator >> (std::istream& rIStream, 
+				    Process& rThis);
+
+  /// output stream function
+  inline std::ostream& operator << (std::ostream& rOStream, 
+				    const Process& rThis)
     {
-        KRATOS_ERROR << "Calling base class create. Please override this method in the corresonding Process" << std::endl;
-        return nullptr;
+      rThis.PrintInfo(rOStream);
+      rOStream << std::endl;
+      rThis.PrintData(rOStream);
+
+      return rOStream;
     }
-
-    /**
-     * @brief Execute method is used to execute the Process algorithms.
-     */
-    virtual void Execute() {}
-
-    /**
-     * @brief This function is designed for being called at the beginning of the computations
-     * right after reading the model and the groups
-     */
-    virtual void ExecuteInitialize()
-    {
-    }
-
-    /**
-     * @brief This function is designed for being execute once before the solution loop but after
-     * all of the solvers where built
-     */
-    virtual void ExecuteBeforeSolutionLoop()
-    {
-    }
-
-
-    /**
-     * @brief This function will be executed at every time step BEFORE performing the solve phase
-     */
-    virtual void ExecuteInitializeSolutionStep()
-    {
-    }
-
-    /**
-     * @brief This function will be executed at every time step AFTER performing the solve phase
-     */
-    virtual void ExecuteFinalizeSolutionStep()
-    {
-    }
-
-
-    /**
-     * @brief This function will be executed at every time step BEFORE  writing the output
-     */
-    virtual void ExecuteBeforeOutputStep()
-    {
-    }
-
-
-    /**
-     * @brief This function will be executed at every time step AFTER writing the output
-     */
-    virtual void ExecuteAfterOutputStep()
-    {
-    }
-
-
-    /**
-     * @brief This function is designed for being called at the end of the computations
-     */
-    virtual void ExecuteFinalize()
-    {
-    }
-
-    /**
-     * @brief This function is designed for being called after ExecuteInitialize ONCE
-     * to verify that the input is correct.
-     */
-    virtual int Check()
-    {
-        return 0;
-    }
-    
-    /**
-     * @brief This method clears the assignation of the conditions
-     */
-    virtual void Clear()
-    {
-    }
-
-    /**
-     * @brief This method provides the defaults parameters to avoid conflicts between the different constructors
-     */
-    virtual const Parameters GetDefaultParameters() const
-    {
-        KRATOS_ERROR << "Calling the base Process class GetDefaultParameters. Please implement the GetDefaultParameters in your derived process class." << std::endl;
-        const Parameters default_parameters = Parameters(R"({})" );
-
-        return default_parameters;
-    }
-
-    ///@}
-    ///@name Access
-    ///@{
-
-
-    ///@}
-    ///@name Inquiry
-    ///@{
-
-
-    ///@}
-    ///@name Input and output
-    ///@{
-
-    /// Turn back information as a string.
-    std::string Info() const override
-    {
-        return "Process";
-    }
-
-    /// Print information about this object.
-    void PrintInfo(std::ostream& rOStream) const override
-    {
-        rOStream << "Process";
-    }
-
-    /// Print object's data.
-    void PrintData(std::ostream& rOStream) const override
-    {
-    }
-
-
-    ///@}
-    ///@name Friends
-    ///@{
-
-
-    ///@}
-
-
-private:
-    ///@name Static Member Variables
-    ///@{
-
-
-
-
-    ///@}
-    ///@name Un accessible methods
-    ///@{
-
-    /// Assignment operator.
-    Process& operator=(Process const& rOther);
-
-    /// Copy constructor.
-    //Process(Process const& rOther);
-
-
-    ///@}
-
-}; // Class Process
-
-///@}
-
-///@name Type Definitions
-///@{
-
-
-///@}
-///@name Input and output
-///@{
-
-
-/// input stream function
-inline std::istream& operator >> (std::istream& rIStream,
-                                  Process& rThis);
-
-/// output stream function
-inline std::ostream& operator << (std::ostream& rOStream,
-                                  const Process& rThis)
-{
-    rThis.PrintInfo(rOStream);
-    rOStream << std::endl;
-    rThis.PrintData(rOStream);
-
-    return rOStream;
-}
-///@}
-
-
+  ///@} 
+  
+  
 }  // namespace Kratos.
 
-#endif // KRATOS_PROCESS_H_INCLUDED  defined
+#endif // KRATOS_PROCESS_H_INCLUDED  defined 
+
+
